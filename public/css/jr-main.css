@@ -1,0 +1,20 @@
+.jr-primary {
+    background-color: #061087 !important;
+}
+
+.jr-accent:hover {
+    background-color: #7be2b3 !important;
+}
+
+.jr-accent {
+    background-color: #43d693 !important;
+    border-color: #216b49 !important;
+}
+
+.jr-accent-fade:hover i {
+    color: #7be2b3 !important;
+}
+
+.jr-accent-fade i {
+    color: #43d693 !important;
+}
