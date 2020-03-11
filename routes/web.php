@@ -14,5 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('layouts.blank');
-});
+    return view('dashboard');
+})->name('dashboard');
+
+Route::get('/spp', function () {
+    return view('spp');
+})->name('spp');

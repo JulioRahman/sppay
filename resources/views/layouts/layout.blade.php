@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SPPay - Kosong</title>
+  <title>SPPay - @yield('title')</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -18,6 +18,9 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   <link href="css/jr-main.css" rel="stylesheet">
+
+  <!-- Custom styles for datatables-->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css"/>
 
 </head>
 
@@ -30,7 +33,7 @@
     <ul class="navbar-nav jr-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="javascript:void(0)">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
         <div class="sidebar-brand-icon">
           <i class="fas fa-hand-holding-usd"></i>
         </div>
@@ -40,17 +43,21 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
-      <!-- Nav Item - Dashboard & Payment -->
-      <li class="nav-item">
-        <a class="nav-link jr-accent-fade" href="javascript:void(0)">
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item {{ Route::is('dashboard') ? 'active' : '' }}">
+        <a class="nav-link jr-accent-fade" href="{{ route('dashboard') }}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dasbor</span></a>
+      </li>
+
+      <!-- Nav Item - Payment -->
+      <li class="nav-item {{ Route::is('payment') ? 'active' : '' }}">
         <a class="nav-link jr-accent-fade" href="javascript:void(0)">
           <i class="fas fa-fw fa-money-bill-wave"></i>
           <span>Pembayaran</span></a>
       </li>
 
-      <!-- Nav Item - Pages Collapse Menu -->
+      <!-- Nav Item - User Management Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
           <i class="fas fa-fw fa-user-cog"></i>
@@ -66,14 +73,14 @@
       </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+      <li class="nav-item {{ Route::is('spp') || Route::is('class') ? 'active' : '' }}">
+        <a class="nav-link {{ Route::is('spp') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Master</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse {{ Route::is('spp') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="javascript:void(0)">SPP</a>
+            <a class="collapse-item {{ Route::is('spp') ? 'active' : '' }}" href="{{ route('spp') }}">SPP</a>
             <a class="collapse-item" href="javascript:void(0)">Kelas</a>
           </div>
         </div>
@@ -186,6 +193,14 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- DataTables-->
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
+  <script>
+      $(document).ready( function () {
+          $('#dataTable').DataTable();
+      } );
+  </script>
 
 </body>
 
