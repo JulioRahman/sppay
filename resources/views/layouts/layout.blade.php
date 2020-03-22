@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
 
@@ -8,6 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>SPPay - @yield('title')</title>
 
@@ -91,7 +94,7 @@
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline mb-auto">
-        <button class="rounded-circle border-0 jr-accent" id="sidebarToggle"></button>
+        <button class="rounded-circle border-0 jr-accent" id="sidebarToggle" onclick="setSideBarColapsed()"></button>
       </div>
 
     </ul>
@@ -117,7 +120,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Julio Rahman</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                 <img class="img-profile rounded-circle" src="https://avatars0.githubusercontent.com/u/32903387?s=460">
               </a>
               <!-- Dropdown - User Information -->
@@ -178,7 +181,13 @@
         <div class="modal-body">Pilih "Keluar" di bawah ini jika Anda siap untuk mengakhiri sesi Anda saat ini.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-          <a class="btn btn-primary jr-accent" href="javascript:void(0)">Keluar</a>
+          <a class="btn btn-primary jr-accent" href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+              document.getElementById('logout-form').submit();">Keluar</a>
+
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+          </form>
         </div>
       </div>
     </div>
@@ -196,10 +205,32 @@
 
   <!-- DataTables-->
   <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
-  <script>
-      $(document).ready( function () {
-          $('#dataTable').DataTable();
-      } );
+  
+  <!-- App scripts -->
+  @stack('scripts')
+  <script  type="text/javascript">
+    function setSideBarColapsed() {
+      if (localStorage.getItem("sideBarColapsed") == "true") {
+        localStorage.setItem("sideBarColapsed", "false");
+        @if(Route::is('spp'))
+        document.getElementById("collapseTwo").classList.add("show");
+        @endif
+      } else {
+        localStorage.setItem("sideBarColapsed", "true");
+        document.getElementById("collapseTwo").classList.remove("show");
+      }
+    }
+
+    $(document).ready( function () {
+      if (localStorage.getItem("sideBarColapsed") == "true") {
+        document.getElementById("accordionSidebar").classList.add("toggled");
+        document.getElementById("collapseTwo").classList.remove("show");
+      } else {
+        @if(Route::is('spp'))
+        document.getElementById("collapseTwo").classList.add("show");
+        @endif
+      }
+    });
   </script>
 
 </body>

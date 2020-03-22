@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,8 +13,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('dashboard');
-})->name('dashboard');
+})->name('dashboard')->middleware('auth');
 
-Route::get('/spp', function () {
-    return view('spp');
-})->name('spp');
+Route::get('/spp', 'SppController@index')->name('spp');
+Route::post('/spp', 'SppController@store');
+Route::get('/spp/json', 'SppController@json');
+
+Auth::routes();
