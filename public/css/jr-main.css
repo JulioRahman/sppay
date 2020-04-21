@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .jr-primary {
     background-color: #061087 !important;
 }

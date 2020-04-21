@@ -59,9 +59,12 @@ class SppController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->input(), array(
-            'schoolYear1' => 'required',
+            'school_year' => 'required|unique:spps,school_year,' . $id . ',id',
             'nominal' => 'required',
         ));
+
+        error_log('required|unique:spps,school_year,'
+            . $request->input('school_year') . ',id');
 
         if ($validator->fails()) {
             return response()->json([
@@ -72,7 +75,7 @@ class SppController extends Controller
 
         $spp = Spp::find($id);
 
-        $spp->school_year = $request->input('schoolYear1') . "/" . $request->input('schoolYear2');
+        $spp->school_year = $request->input('school_year');
         $spp->nominal = $request->input('nominal');
 
         $spp->save();
@@ -96,10 +99,6 @@ class SppController extends Controller
     public function json()
     {
         return Datatables::of(Spp::all())
-            ->addColumn('action', function ($user) {
-                return '<a href="" class="pr-2" id="editData" value="'. $user->id .'"><i class="fas fa-edit"></i></a>' .
-                '<a href="" id="deleteData" value="' . $user->id . '"><i class="fas fa-trash"></i></a>';
-            })
             ->toJson();
     }
 }

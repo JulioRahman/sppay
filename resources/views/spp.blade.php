@@ -25,9 +25,11 @@
                         <div class="form-row">
                             <div class="form-group col">
                                 <label for="schoolYear1">Tahun Ajaran</label>
-                                <input type="number" class="form-control" id="schoolYear1" name="schoolYear1" placeholder="" oninput="addSchoolYear()" min="1900" max="3000" maxlength="4" required>
+                                <input type="number" class="form-control" id="schoolYear1" name="schoolYear1"
+                                    placeholder="" oninput="addSchoolYear()" min="1900" max="3000" maxlength="4"
+                                    required>
                             </div>
-                            
+
                             <div class="form-group col-1 text-center my-auto">
                                 <label>&nbsp;</label>
                                 <p>/</p>
@@ -35,7 +37,8 @@
 
                             <div class="form-group col">
                                 <label for="schoolYear2">&nbsp;</label>
-                                <input type="number" class="form-control" id="schoolYear2" name="schoolYear2" placeholder="" readonly>
+                                <input type="number" class="form-control" id="schoolYear2" name="schoolYear2"
+                                    placeholder="" readonly>
                             </div>
                         </div>
 
@@ -45,17 +48,20 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Rp</span>
                                 </div>
-                                <input id="nominal" type="text" class="form-control" name="nominal" placeholder="" aria-label="Username" aria-describedby="nominal" min="0" required>
+                                <input id="nominal" type="text" class="form-control" name="nominal" placeholder=""
+                                    aria-label="Username" aria-describedby="nominal" min="0" required>
                             </div>
                         </div>
 
                         <button id="btnSubmit" type="submit" class="btn btn-primary float-right">Simpan</button>
+                        <button id="btnReset" type="reset" class="btn btn-danger float-right mr-2"
+                            style="display: none">Batal</button>
                     </form>
                 </div>
             </div>
 
         </div>
-        
+
         <div class="col-lg-8">
 
             <div class="card shadow mb-4">
@@ -77,13 +83,14 @@
 
         </div>
 
-      </div>
+    </div>
 </div>
 <!-- /.container-fluid -->
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"
+    integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.11/dist/sweetalert2.all.min.js"></script>
 <script>
     function addSchoolYear() {
@@ -98,6 +105,12 @@
     }
 
     $(document).ready( function () {
+        var isCreate = true;
+        var taskId;
+        var type;
+        var url;
+        var msg;
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -116,7 +129,13 @@
                 { data: 'nominal', name: 'nominal' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
-            "order": [1, 'asc'],
+            "columnDefs": [{
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<a href='' class='pr-2' id='editData'><i class='fas fa-edit'></i></a>" + 
+                    "<a href='' id='deleteData'><i class='fas fa-trash'></i></a>"
+            }],
+            "order": [1, 'desc'],
             "language": {
                 "sEmptyTable":   "Tidak ada data yang tersedia pada tabel ini",
                 "sProcessing":   "Sedang memproses...",
@@ -134,17 +153,76 @@
                     "sNext":     ">",
                     "sLast":     ">|"
                 }
+            },
+            "initComplete": function( settings, json ) {
+                $('#dataTable tbody').on( 'click', '#editData', function(e) {
+                    e.preventDefault();
+
+                    var data = table.row( $(this).parents('tr') ).data();
+                    $("#formSpp input[name=schoolYear1]").val(data.school_year.substr(0, 4));
+                    addSchoolYear();
+                    $("#formSpp input[name=nominal]").val(data.nominal).trigger("input");
+                    $("#formSpp input[name=nominal]").focus();
+                    isCreate = false;
+                    taskId = data.id;
+                    $("#btnSubmit").html("Ubah");
+                    $("#btnReset").show();
+                });
+
+                $('#dataTable tbody').on( 'click', '#deleteData', function(e) {
+                    e.preventDefault();
+
+                    var data = table.row( $(this).parents('tr') ).data();
+                    Swal.fire({
+                        title: 'Apakah Anda Yakin?',
+                        text: 'SPP tahun ajaran ' + data.school_year + ' akan dihapus',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Hapus',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                type: 'DELETE',
+                                url: '/spp/' + data.id,
+                                dataType: 'json',
+                                success: function(data) {
+                                    table.ajax.reload(null, false);
+                                    Swal.fire({
+                                        title: 'Berhasil',
+                                        icon: 'success',
+                                        showCancelButton: false,
+                                        timer: 1500
+                                    });
+                                },
+                                error: function(data) {
+                                    console.log(data);
+                                }
+                            });
+                        }
+                    });
+                });
             }
         });
 
-        $("#formSpp").on('submit', function (e) {
+        $("#formSpp").on('submit', function(e) {
+            if (isCreate) {
+                type = 'POST';
+                url = '/spp';
+                msg = 'tambahkan';
+            } else {
+                type = 'PUT';
+                url = '/spp/' + taskId;
+                msg = 'ubah';
+            }
+            
             $.ajax({
-                type: 'POST',
-                url: '/spp',
+                type: type,
+                url: url,
                 data: {
                     school_year: $("#formSpp input[name=schoolYear1]").val() 
                         + '/' + $("#formSpp input[name=schoolYear2]").val(),
-                    nominal: $("#formSpp input[name=nominal]").cleanVal(),
+                    nominal: $("#formSpp input[name=nominal]").cleanVal()
                 },
                 dataType: 'json',
                 success: function(data) {
@@ -152,7 +230,7 @@
                     table.ajax.reload(null, false);
                     Swal.fire({
                         title: 'Berhasil',
-                        text: 'SPP tahun ajaran ' + data.spp.school_year + ' berhasil ditambahkan',
+                        text: 'SPP tahun ajaran ' + data.spp.school_year + ' berhasil di' + msg,
                         icon: 'success',
                         showCancelButton: false,
                         timer: 1500
@@ -179,6 +257,13 @@
 
             e.preventDefault();
         });
+
+        $("#formSpp").on("reset", function() {
+            $("#btnReset").hide();
+            isCreate = true;
+            taskId = '';
+            $("#btnSubmit").html("Simpan");
+        })
     });
 </script>
 @endpush
