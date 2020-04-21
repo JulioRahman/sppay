@@ -16,7 +16,12 @@ Route::get('/', function () {
 })->name('dashboard')->middleware('auth');
 
 Route::get('/spp', 'SppController@index')->name('spp');
-Route::post('/spp', 'SppController@store');
-Route::get('/spp/json', 'SppController@json');
+Route::prefix('spp')->group(function () {
+    Route::get('/json', 'SppController@json');
+    Route::get('/{id}', 'SppController@show')->name('spp.show');
+    Route::post('/', 'SppController@store')->name('spp.store');
+    Route::put('/{id}', 'SppController@update')->name('spp.update');
+    Route::delete('/{id}', 'SppController@destroy')->name('spp.destroy');
+});
 
-Auth::routes();
+Auth::routes(['verify' => true]);

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role',
     ];
 
     /**
@@ -35,5 +35,52 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'role' => 'string',
     ];
+
+    /**
+     * @param string $roles
+     * @return $this
+     */
+    public function setRole(string $role)
+    {
+        $this->setAttribute('role', $role);
+        return $this;
+    }
+
+    /***
+     * @param $role
+     * @return mixed
+     */
+    public function hasRole($role)
+    {
+        return $role === $this->getRoles();
+    }
+
+    /***
+     * @param $role
+     * @return mixed
+     */
+    public function hasRoles($role)
+    {
+        $currentRole = $this->getRoles();
+        if (!$role === $currentRole) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoles()
+    {
+        $role = $this->getAttribute('role');
+
+        if (is_null($role)) {
+            $role = "";
+        }
+
+        return $role;
+    }
 }

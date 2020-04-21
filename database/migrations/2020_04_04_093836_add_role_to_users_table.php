@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSppsTable extends Migration
+class AddRoleToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateSppsTable extends Migration
      */
     public function up()
     {
-        Schema::create('spps', function (Blueprint $table) {
-            $table->id();
-            $table->string('school_year')->unique();
-            $table->double('nominal');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->text('role')->after('name');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateSppsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('spps');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
+        });
     }
 }
