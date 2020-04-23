@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Spp;
-use Yajra\Datatables\Datatables;
+use App\_Class;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Validator;
 
-class SppController extends Controller
+class ClassController extends Controller
 {
     public function __construct()
     {
@@ -18,14 +18,15 @@ class SppController extends Controller
 
     public function index()
     {
-        return view('spp');
+        return view('class');
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->input(), array(
-            'school_year' => 'required|unique:spps',
-            'nominal' => 'required',
+            'grade' => 'required',
+            'name' => 'required',
+            'majors' => 'required',
         ));
 
         if ($validator->fails()) {
@@ -35,32 +36,34 @@ class SppController extends Controller
             ], 422);
         }
 
-        $spp = new Spp();
-        $spp->school_year = $request->input('school_year');
-        $spp->nominal = $request->input('nominal');
-        $spp->save();
+        $class = new _Class();
+        $class->grade = $request->input('grade');
+        $class->name = $request->input('name');
+        $class->majors = $request->input('majors');
+        $class->save();
 
         return response()->json([
             'error' => false,
-            'spp'  => $spp,
+            'class'  => $class,
         ], 200);
     }
 
     public function show($id)
     {
-        $spp = Spp::find($id);
+        $class = _Class::find($id);
 
         return response()->json([
             'error' => false,
-            'spp'  => $spp,
+            'class'  => $class,
         ], 200);
     }
 
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->input(), array(
-            'school_year' => 'required|unique:spps,school_year,' . $id . ',id',
-            'nominal' => 'required',
+            'grade' => 'required',
+            'name' => 'required',
+            'majors' => 'required',
         ));
 
         if ($validator->fails()) {
@@ -70,30 +73,31 @@ class SppController extends Controller
             ], 422);
         }
 
-        $spp = Spp::find($id);
-        $spp->school_year = $request->input('school_year');
-        $spp->nominal = $request->input('nominal');
-        $spp->save();
+        $class = _Class::find($id);
+        $class->grade = $request->input('grade');
+        $class->name = $request->input('name');
+        $class->majors = $request->input('majors');
+        $class->save();
 
         return response()->json([
             'error' => false,
-            'spp'  => $spp,
+            'class'  => $class,
         ], 200);
     }
 
     public function destroy($id)
     {
-        $spp = Spp::destroy($id);
+        $class = _Class::destroy($id);
 
         return response()->json([
             'error' => false,
-            'spp'  => $spp,
+            'class'  => $class,
         ], 200);
     }
 
     public function json()
     {
-        return Datatables::of(Spp::all())
+        return Datatables::of(_Class::all())
             ->toJson();
     }
 }

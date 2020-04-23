@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'SPP')
+@section('title', 'Kelas')
 
 @section('content')
 <!-- Begin Page Content -->
@@ -8,7 +8,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">SPP</h1>
+        <h1 class="h3 mb-0 text-gray-800">Kelas</h1>
     </div>
 
     <div class="row">
@@ -17,40 +17,46 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Tambah SPP</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Tambah Kelas</h6>
                 </div>
                 <div class="card-body">
-                    <form id="formSpp">
+                    <form id="formKelas">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col">
-                                <label for="schoolYear1">Tahun Ajaran</label>
-                                <input type="number" class="form-control" id="schoolYear1" name="schoolYear1"
-                                    placeholder="" oninput="addSchoolYear()" min="1900" max="3000" maxlength="4"
-                                    required>
-                            </div>
-
-                            <div class="form-group col-1 text-center my-auto">
-                                <label>&nbsp;</label>
-                                <p>/</p>
+                                <label for="grade">Tingkat</label>
+                                <select class="form-control" id="grade" name="grade">
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                </select>
                             </div>
 
                             <div class="form-group col">
-                                <label for="schoolYear2">&nbsp;</label>
-                                <input type="number" class="form-control" id="schoolYear2" name="schoolYear2"
-                                    placeholder="" readonly>
+                                <label for="name">Nama</label>
+                                <select class="form-control" id="name" name="name">
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="nominal">Nominal</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Rp</span>
-                                </div>
-                                <input id="nominal" type="text" class="form-control" name="nominal" placeholder=""
-                                    aria-label="Username" aria-describedby="nominal" min="0" required>
-                            </div>
+                            <label for="majors">Kompetensi Keahlian</label>
+                            <select class="form-control" id="majors" name="majors">
+                                <option value="TEI">TEI</option>
+                                <option value="TEDK">TEDK</option>
+                                <option value="TOI">TOI</option>
+                                <option value="TPTU">TPTU</option>
+                                <option value="IOP">IOP</option>
+                                <option value="MEKA">MEKA</option>
+                                <option value="SIJA">SIJA</option>
+                                <option value="RPL">RPL</option>
+                                <option value="PFPT">PFPT</option>
+                            </select>
                         </div>
 
                         <button id="btnSubmit" type="submit" class="btn btn-primary float-right">Simpan</button>
@@ -71,8 +77,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
-                                    <th scope="col">Tahun Ajaran</th>
-                                    <th scope="col">Nominal</th>
+                                    <th scope="col">Tingkat</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Kompetensi Keahlian</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -89,24 +96,10 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"
-    integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.11/dist/sweetalert2.all.min.js"></script>
 <script>
-    function addSchoolYear() {
-        let schoolYear1 = document.getElementById("schoolYear1");
-        let schoolYear2 = document.getElementById("schoolYear2");
-
-        if (schoolYear1.value.length > schoolYear1.maxLength) 
-            schoolYear1.value = schoolYear1.value.slice(0, schoolYear1.maxLength);
-        
-        var year = schoolYear1.value;
-        schoolYear2.value = parseInt(year) + 1;
-    }
-
     $(document).ready( function () {
         var isCreate = true;
-        var sppId;
+        var classId;
         var type;
         var url;
         var msg;
@@ -117,16 +110,15 @@
             }
         });
 
-        $('#nominal').mask('000.000.000', {reverse: true});
-
         var table = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: 'spp/json',
+            ajax: 'kelas/json',
             columns: [
                 { data: 'id', name: 'id' },
-                { data: 'school_year', name: 'school_year' },
-                { data: 'nominal', name: 'nominal' },
+                { data: 'grade', name: 'grade' },
+                { data: 'name', name: 'name' },
+                { data: 'majors', name: 'majors' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             "columnDefs": [{
@@ -135,7 +127,6 @@
                 "defaultContent": "<a href='' class='pr-2' id='editData'><i class='fas fa-edit'></i></a>" + 
                     "<a href='' id='deleteData'><i class='fas fa-trash'></i></a>"
             }],
-            "order": [1, 'desc'],
             "language": {
                 "sEmptyTable":   "Tidak ada data yang tersedia pada tabel ini",
                 "sProcessing":   "Sedang memproses...",
@@ -159,12 +150,12 @@
                     e.preventDefault();
 
                     var data = table.row( $(this).parents('tr') ).data();
-                    $("#formSpp input[name=schoolYear1]").val(data.school_year.substr(0, 4));
-                    addSchoolYear();
-                    $("#formSpp input[name=nominal]").val(data.nominal).trigger("input");
-                    $("#formSpp input[name=nominal]").focus();
+                    $("#formKelas select[name=grade]").val(data.grade);
+                    $("#formKelas select[name=name]").val(data.name);
+                    $("#formKelas input[name=majors]").val(data.majors);
+                    $("#formKelas select[name=grade]").focus();
                     isCreate = false;
-                    sppId = data.id;
+                    classId = data.id;
                     $("#btnSubmit").html("Ubah");
                     $("#btnReset").show();
                 });
@@ -175,7 +166,7 @@
                     var data = table.row( $(this).parents('tr') ).data();
                     Swal.fire({
                         title: 'Apakah Anda Yakin?',
-                        text: 'SPP tahun ajaran ' + data.school_year + ' akan dihapus',
+                        text: 'Kelas ' + data.grade + ' ' + data.majors + ' ' + data.name + ' akan dihapus',
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'Hapus',
@@ -184,7 +175,7 @@
                         if (result.value) {
                             $.ajax({
                                 type: 'DELETE',
-                                url: '/spp/' + data.id,
+                                url: '/kelas/' + data.id,
                                 dataType: 'json',
                                 success: function(data) {
                                     table.ajax.reload(null, false);
@@ -205,14 +196,14 @@
             }
         });
 
-        $("#formSpp").on('submit', function(e) {
+        $("#formKelas").on('submit', function(e) {
             if (isCreate) {
                 type = 'POST';
-                url = '/spp';
+                url = '/kelas';
                 msg = 'tambahkan';
             } else {
                 type = 'PUT';
-                url = '/spp/' + sppId;
+                url = '/kelas/' + classId;
                 msg = 'ubah';
             }
             
@@ -220,17 +211,17 @@
                 type: type,
                 url: url,
                 data: {
-                    school_year: $("#formSpp input[name=schoolYear1]").val() 
-                        + '/' + $("#formSpp input[name=schoolYear2]").val(),
-                    nominal: $("#formSpp input[name=nominal]").cleanVal()
+                    grade: $("#formKelas select[name=grade]").val(),
+                    name: $("#formKelas select[name=name]").val(),
+                    majors: $("#formKelas input[name=majors]").val()
                 },
                 dataType: 'json',
                 success: function(data) {
-                    $('#formSpp').trigger("reset");
+                    $('#formKelas').trigger("reset");
                     table.ajax.reload(null, false);
                     Swal.fire({
                         title: 'Berhasil',
-                        text: 'SPP tahun ajaran ' + data.spp.school_year + ' berhasil di' + msg,
+                        text: 'Kelas ' + data.class.grade + ' ' + data.class.majors + ' ' + data.class.name + ' berhasil di' + msg,
                         icon: 'success',
                         showCancelButton: false,
                         timer: 1500
@@ -258,10 +249,10 @@
             e.preventDefault();
         });
 
-        $("#formSpp").on("reset", function() {
+        $("#formKelas").on("reset", function() {
             $("#btnReset").hide();
             isCreate = true;
-            sppId = '';
+            classId = '';
             $("#btnSubmit").html("Simpan");
         })
     });

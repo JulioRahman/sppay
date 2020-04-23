@@ -24,4 +24,13 @@ Route::prefix('spp')->group(function () {
     Route::delete('/{id}', 'SppController@destroy')->name('spp.destroy');
 });
 
+Route::get('/kelas', 'ClassController@index')->name('kelas');
+Route::prefix('kelas')->group(function () {
+    Route::get('/json', 'ClassController@json');
+    Route::get('/{id}', 'ClassController@show')->name('kelas.show');
+    Route::post('/', 'ClassController@store')->name('kelas.store');
+    Route::put('/{id}', 'ClassController@update')->name('kelas.update');
+    Route::delete('/{id}', 'ClassController@destroy')->name('kelas.destroy');
+});
+
 Auth::routes(['verify' => true]);
