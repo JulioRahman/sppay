@@ -86,14 +86,14 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item {{ Route::is('spp') || Route::is('class') ? 'active' : '' }}">
-        <a class="nav-link {{ Route::is('spp') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link {{ Route::is('spp') || Route::is('class') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-table"></i>
           <span>Data Master</span>
         </a>
         <div id="collapseTwo" class="collapse {{ Route::is('spp') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item {{ Route::is('spp') ? 'active' : '' }}" href="{{ route('spp') }}">SPP</a>
-            <a class="collapse-item" href="javascript:void(0)">Kelas</a>
+            <a class="collapse-item {{ Route::is('class') ? 'active' : '' }}" href="{{ route('class') }}">Kelas</a>
           </div>
         </div>
       </li>
@@ -226,7 +226,7 @@
     function setSideBarColapsed() {
       if (localStorage.getItem("sideBarColapsed") == "true") {
         localStorage.setItem("sideBarColapsed", "false");
-        @if(Route::is('spp'))
+        @if(Route::is('spp') || Route::is('class'))
         document.getElementById("collapseTwo").classList.add("show");
         @endif
       } else {
@@ -240,7 +240,7 @@
         document.getElementById("accordionSidebar").classList.add("toggled");
         document.getElementById("collapseTwo").classList.remove("show");
       } else {
-        @if(Route::is('spp'))
+        @if(Route::is('spp')|| Route::is('class'))
         document.getElementById("collapseTwo").classList.add("show");
         @endif
       }

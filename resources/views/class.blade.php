@@ -150,9 +150,10 @@
                     e.preventDefault();
 
                     var data = table.row( $(this).parents('tr') ).data();
+                    console.log(data);
                     $("#formKelas select[name=grade]").val(data.grade);
                     $("#formKelas select[name=name]").val(data.name);
-                    $("#formKelas input[name=majors]").val(data.majors);
+                    $("#formKelas select[name=majors]").val(data.majors);
                     $("#formKelas select[name=grade]").focus();
                     isCreate = false;
                     classId = data.id;
@@ -213,7 +214,7 @@
                 data: {
                     grade: $("#formKelas select[name=grade]").val(),
                     name: $("#formKelas select[name=name]").val(),
-                    majors: $("#formKelas input[name=majors]").val()
+                    majors: $("#formKelas select[name=majors]").val()
                 },
                 dataType: 'json',
                 success: function(data) {

@@ -24,7 +24,7 @@ class SppController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->input(), array(
-            'school_year' => 'required|unique:spps',
+            'school_year' => 'required',
             'nominal' => 'required',
         ));
 
@@ -59,7 +59,7 @@ class SppController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->input(), array(
-            'school_year' => 'required|unique:spps,school_year,' . $id . ',id',
+            'school_year' => 'required',
             'nominal' => 'required',
         ));
 

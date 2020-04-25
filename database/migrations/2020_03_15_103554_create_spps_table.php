@@ -15,7 +15,7 @@ class CreateSppsTable extends Migration
     {
         Schema::create('spps', function (Blueprint $table) {
             $table->id();
-            $table->string('school_year')->unique();
+            $table->string('school_year');
             $table->double('nominal');
             $table->timestamps();
         });
