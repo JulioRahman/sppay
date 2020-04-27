@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Student;
 use App\_Class;
 use Illuminate\Http\Request;
-use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class ClassController extends Controller
+class StudentController extends Controller
 {
     public function __construct()
     {
@@ -18,15 +19,18 @@ class ClassController extends Controller
 
     public function index()
     {
-        return view('class');
+        $classes = _Class::all();
+
+        return view('student', ['classes' => $classes]);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->input(), array(
-            'grade' => 'required',
-            'class_name' => 'required',
-            'majors' => 'required',
+            'nisn' => 'required',
+            'nis' => 'required',
+            'student_name' => 'required',
+            '__class_id' => 'required',
         ));
 
         if ($validator->fails()) {
@@ -36,24 +40,27 @@ class ClassController extends Controller
             ], 422);
         }
 
-        $class = new _Class();
-        $class->grade = $request->input('grade');
-        $class->class_name = $request->input('class_name');
-        $class->majors = $request->input('majors');
-        $class->save();
+        $student = new Student();
+        $student->nisn = $request->input('nisn');
+        $student->nis = $request->input('nis');
+        $student->student_name = $request->input('student_name');
+        $student->__class_id = $request->input('__class_id');
+        $student->save();
 
         return response()->json([
             'error' => false,
-            'class'  => $class,
+            'student'  => $student,
         ], 200);
     }
 
     public function show($id)
     {
-        $class = _Class::find($id);
+        $student = Student::find($id);
+        $class = _Class::find($student->__class_id);
 
         return response()->json([
             'error' => false,
+            'student'  => $student,
             'class'  => $class,
         ], 200);
     }
@@ -61,9 +68,10 @@ class ClassController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->input(), array(
-            'grade' => 'required',
-            'class_name' => 'required',
-            'majors' => 'required',
+            'nisn' => 'required',
+            'nis' => 'required',
+            'student_name' => 'required',
+            '__class_id' => 'required',
         ));
 
         if ($validator->fails()) {
@@ -73,31 +81,33 @@ class ClassController extends Controller
             ], 422);
         }
 
-        $class = _Class::find($id);
-        $class->grade = $request->input('grade');
-        $class->class_name = $request->input('class_name');
-        $class->majors = $request->input('majors');
-        $class->save();
+        $student = Student::find($id);
+        $student->nisn = $request->input('nisn');
+        $student->nis = $request->input('nis');
+        $student->student_name = $request->input('student_name');
+        $student->__class_id = $request->input('__class_id');
+        $student->save();
 
         return response()->json([
             'error' => false,
-            'class'  => $class,
+            'student'  => $student,
         ], 200);
     }
 
     public function destroy($id)
     {
-        $class = _Class::destroy($id);
+        $student = Student::destroy($id);
 
         return response()->json([
             'error' => false,
-            'class'  => $class,
+            'student'  => $student,
         ], 200);
     }
 
     public function json()
     {
-        return Datatables::of(_Class::all())
+        return datatables(DB::table('students')
+                ->join('__classes', 'students.__class_id', '=', '__classes.id'))
             ->toJson();
     }
 }

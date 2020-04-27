@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'Data SPP')
+@section('title', 'Manajemen Siswa')
 
 @section('content')
 <!-- Begin Page Content -->
@@ -8,7 +8,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">SPP</h1>
+        <h1 class="h3 mb-0 text-gray-800">Siswa</h1>
     </div>
 
     <div class="row">
@@ -17,40 +17,52 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary" id="title">Tambah SPP</h6>
+                    <h6 class="m-0 font-weight-bold text-primary" id="title">Tambah Siswa</h6>
                 </div>
                 <div class="card-body">
-                    <form id="formSpp">
+                    <form id="formSiswa">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col">
-                                <label for="schoolYear1">Tahun Ajaran</label>
-                                <input type="number" class="form-control" id="schoolYear1" name="schoolYear1"
-                                    placeholder="" oninput="addSchoolYear()" min="1900" max="3000" maxlength="4"
-                                    required>
-                            </div>
-
-                            <div class="form-group col-1 text-center my-auto">
-                                <label>&nbsp;</label>
-                                <p>/</p>
+                                <label for="nisn">NISN</label>
+                                <input type="number" class="form-control" id="nisn" name="nisn" placeholder=""
+                                    min="1" max="9999999999" maxlength="10" required>
                             </div>
 
                             <div class="form-group col">
-                                <label for="schoolYear2">&nbsp;</label>
-                                <input type="number" class="form-control" id="schoolYear2" name="schoolYear2"
-                                    placeholder="" readonly>
+                                <label for="nis">NIS</label>
+                                <input type="number" class="form-control" id="nis" name="nis" placeholder=""
+                                    min="1" max="999999999" maxlength="9" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="nominal">Nominal</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Rp</span>
-                                </div>
-                                <input id="nominal" type="text" class="form-control" name="nominal" placeholder=""
-                                    aria-label="Username" aria-describedby="nominal" min="0" required>
-                            </div>
+                            <label for="student_name">Nama</label>
+                            <input type="text" class="form-control" id="student_name" name="student_name" placeholder=""
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="class">Kelas</label>
+                            <select class="form-control" id="class" name="class">
+                                @foreach ($classes as $class)
+                                <option value="{{ $class->id }}">
+                                    {{ $class->grade . " " . $class->majors . " " . $class->class_name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Alamat</label>
+                            <textarea class="form-control" id="address" name="address" placeholder="" rows="3"
+                                disabled></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone_number">Nomor Telepon</label>
+                            <input type="tel" class="form-control" id="telephone_number" name="telephone_number"
+                                placeholder="" disabled>
                         </div>
 
                         <button id="btnSubmit" type="submit" class="btn btn-primary float-right">Simpan</button>
@@ -70,9 +82,10 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Tahun Ajaran</th>
-                                    <th scope="col">Nominal</th>
+                                    <th scope="col">NISN</th>
+                                    <th scope="col">NIS</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Kelas</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -89,53 +102,35 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"
-    integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.11/dist/sweetalert2.all.min.js"></script>
 <script>
-    function addSchoolYear() {
-        let schoolYear1 = document.getElementById("schoolYear1");
-        let schoolYear2 = document.getElementById("schoolYear2");
-
-        if (schoolYear1.value.length > schoolYear1.maxLength) 
-            schoolYear1.value = schoolYear1.value.slice(0, schoolYear1.maxLength);
-        
-        var year = schoolYear1.value;
-        schoolYear2.value = parseInt(year) + 1;
-    }
-
     $(document).ready( function () {
         var isCreate = true;
-        var sppId;
+        var studentId;
         var type;
         var url;
         var msg;
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $('#nominal').mask('000.000.000', {reverse: true});
-
         var table = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: 'spp/json',
+            ajax: 'siswa/json',
             columns: [
-                { data: 'id', name: 'id' },
-                { data: 'school_year', name: 'school_year' },
-                { data: 'nominal', name: 'nominal' },
+                { data: 'nisn', name: 'nisn' },
+                { data: 'nis', name: 'nis' },
+                { data: 'student_name', name: 'student_name' },
+                { data: 'null', render: function ( data, type, row ) {
+                        return row.grade + ' ' + row.majors + ' ' + row.class_name;
+                    }
+                },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             "columnDefs": [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<a href='' class='pr-2' id='editData'><i class='fas fa-edit'></i></a>" + 
+                "defaultContent": "<a href='' class='pr-2' id='viewData' title='Dalam Pengembangan'><i class='fas fa-eye'></i></a>" +
+                    "<a href='' class='pr-2' id='editData'><i class='fas fa-edit'></i></a>" +
                     "<a href='' id='deleteData'><i class='fas fa-trash'></i></a>"
             }],
-            "order": [1, 'desc'],
             "language": {
                 "sEmptyTable":   "Tidak ada data yang tersedia pada tabel ini",
                 "sProcessing":   "Sedang memproses...",
@@ -155,16 +150,21 @@
                 }
             },
             "initComplete": function( settings, json ) {
+                $('#dataTable tbody').on( 'click', '#viewData', function(e) {
+                    e.preventDefault();
+                });
+
                 $('#dataTable tbody').on( 'click', '#editData', function(e) {
                     e.preventDefault();
 
                     var data = table.row( $(this).parents('tr') ).data();
-                    $("#formSpp input[name=schoolYear1]").val(data.school_year.substr(0, 4)).focus();
-                    addSchoolYear();
-                    $("#formSpp input[name=nominal]").val(data.nominal).trigger("input");
+                    $("#formSiswa input[name=nisn]").val(data.nisn).focus();
+                    $("#formSiswa input[name=nis]").val(data.nis);
+                    $("#formSiswa input[name=student_name]").val(data.student_name);
+                    $("#formSiswa select[name=class]").val(data.__class_id);
                     isCreate = false;
-                    sppId = data.id;
-                    $("#title").html("Sunting SPP");
+                    studentId = data.nisn;
+                    $("#title").html("Sunting Siswa");
                     $("#btnSubmit").html("Ubah");
                     $("#btnReset").show();
                 });
@@ -175,7 +175,7 @@
                     var data = table.row( $(this).parents('tr') ).data();
                     Swal.fire({
                         title: 'Apakah Anda Yakin?',
-                        text: 'SPP tahun ajaran ' + data.school_year + ' akan dihapus',
+                        text: 'Siswa ' + data.student_name + ' akan dihapus',
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'Hapus',
@@ -184,7 +184,7 @@
                         if (result.value) {
                             $.ajax({
                                 type: 'DELETE',
-                                url: '/spp/' + data.id,
+                                url: '/siswa/' + data.nisn,
                                 dataType: 'json',
                                 success: function(data) {
                                     table.ajax.reload(null, false);
@@ -205,14 +205,14 @@
             }
         });
 
-        $("#formSpp").on('submit', function(e) {
+        $("#formSiswa").on('submit', function(e) {
             if (isCreate) {
                 type = 'POST';
-                url = '/spp';
+                url = '/siswa';
                 msg = 'tambahkan';
             } else {
                 type = 'PUT';
-                url = '/spp/' + sppId;
+                url = '/siswa/' + studentId;
                 msg = 'ubah';
             }
             
@@ -220,25 +220,25 @@
                 type: type,
                 url: url,
                 data: {
-                    school_year: $("#formSpp input[name=schoolYear1]").val() 
-                        + '/' + $("#formSpp input[name=schoolYear2]").val(),
-                    nominal: $("#formSpp input[name=nominal]").cleanVal()
+                    nisn: $("#formSiswa input[name=nisn]").val(),
+                    nis: $("#formSiswa input[name=nis]").val(),
+                    student_name: $("#formSiswa input[name=student_name]").val(),
+                    __class_id: $("#formSiswa select[name=class]").val()
                 },
                 dataType: 'json',
                 success: function(data) {
-                    $("#title").html("Tambah Kelas");
-                    $('#formSpp').trigger("reset");
+                    $("#title").html("Tambah Siswa");
+                    $('#formSiswa').trigger("reset");
                     table.ajax.reload(null, false);
                     Swal.fire({
                         title: 'Berhasil',
-                        text: 'SPP tahun ajaran ' + data.spp.school_year + ' berhasil di' + msg,
+                        text: 'Siswa ' + data.student.student_name + ' berhasil di' + msg,
                         icon: 'success',
                         showCancelButton: false,
                         timer: 1500
                     });
                 },
                 error: function(data) {
-                    $("#title").html("Tambah Kelas");
                     var errors = $.parseJSON(data.responseText);
                     
                     var message = '';
@@ -260,11 +260,11 @@
             e.preventDefault();
         });
 
-        $("#formSpp").on("reset", function() {
+        $("#formSiswa").on("reset", function() {
             $("#btnReset").hide();
             isCreate = true;
-            sppId = '';
-            $("#title").html("Tambah Kelas");
+            studentId = '';
+            $("#title").html("Tambah Siswa");
             $("#btnSubmit").html("Simpan");
         })
     });

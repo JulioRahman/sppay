@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'Kelas')
+@section('title', 'Data Kelas')
 
 @section('content')
 <!-- Begin Page Content -->
@@ -17,7 +17,7 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Tambah Kelas</h6>
+                    <h6 class="m-0 font-weight-bold text-primary" id="title">Tambah Kelas</h6>
                 </div>
                 <div class="card-body">
                     <form id="formKelas">
@@ -34,8 +34,8 @@
                             </div>
 
                             <div class="form-group col">
-                                <label for="name">Nama</label>
-                                <select class="form-control" id="name" name="name">
+                                <label for="class_name">Nama</label>
+                                <select class="form-control" id="class_name" name="class_name">
                                     <option value="A">A</option>
                                     <option value="B">B</option>
                                     <option value="C">C</option>
@@ -104,12 +104,6 @@
         var url;
         var msg;
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
         var table = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
@@ -117,7 +111,7 @@
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'grade', name: 'grade' },
-                { data: 'name', name: 'name' },
+                { data: 'class_name', name: 'class_name' },
                 { data: 'majors', name: 'majors' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
@@ -150,13 +144,12 @@
                     e.preventDefault();
 
                     var data = table.row( $(this).parents('tr') ).data();
-                    console.log(data);
-                    $("#formKelas select[name=grade]").val(data.grade);
-                    $("#formKelas select[name=name]").val(data.name);
-                    $("#formKelas select[name=majors]").val(data.majors);
-                    $("#formKelas select[name=grade]").focus();
+                    $("#formKelas select[name=grade]").val(data.grade).focus();
+                    $("#formKelas select[name=class_name]").val(data.class_name);
+                    $("#formKelas select[name=majors]").val(data.majors);\
                     isCreate = false;
                     classId = data.id;
+                    $("#title").html("Sunting Kelas");
                     $("#btnSubmit").html("Ubah");
                     $("#btnReset").show();
                 });
@@ -167,7 +160,7 @@
                     var data = table.row( $(this).parents('tr') ).data();
                     Swal.fire({
                         title: 'Apakah Anda Yakin?',
-                        text: 'Kelas ' + data.grade + ' ' + data.majors + ' ' + data.name + ' akan dihapus',
+                        text: 'Kelas ' + data.grade + ' ' + data.majors + ' ' + data.class_name + ' akan dihapus',
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'Hapus',
@@ -213,22 +206,24 @@
                 url: url,
                 data: {
                     grade: $("#formKelas select[name=grade]").val(),
-                    name: $("#formKelas select[name=name]").val(),
+                    class_name: $("#formKelas select[name=class_name]").val(),
                     majors: $("#formKelas select[name=majors]").val()
                 },
                 dataType: 'json',
                 success: function(data) {
+                    $("#title").html("Tambah Kelas");
                     $('#formKelas').trigger("reset");
                     table.ajax.reload(null, false);
                     Swal.fire({
                         title: 'Berhasil',
-                        text: 'Kelas ' + data.class.grade + ' ' + data.class.majors + ' ' + data.class.name + ' berhasil di' + msg,
+                        text: 'Kelas ' + data.class.grade + ' ' + data.class.majors + ' ' + data.class.class_name + ' berhasil di' + msg,
                         icon: 'success',
                         showCancelButton: false,
                         timer: 1500
                     });
                 },
                 error: function(data) {
+                    $("#title").html("Tambah Kelas");
                     var errors = $.parseJSON(data.responseText);
                     
                     var message = '';
@@ -254,6 +249,7 @@
             $("#btnReset").hide();
             isCreate = true;
             classId = '';
+            $("#title").html("Tambah Kelas");
             $("#btnSubmit").html("Simpan");
         })
     });

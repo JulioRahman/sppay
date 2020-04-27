@@ -1,8 +1,6 @@
 @extends('layouts.layout')
 
-@section('title')
-Dasbor
-@endsection
+@section('title', 'Dasbor')
 
 @section('content')
 <!-- Begin Page Content -->

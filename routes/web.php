@@ -33,4 +33,13 @@ Route::prefix('kelas')->group(function () {
     Route::delete('/{id}', 'ClassController@destroy')->name('class.destroy');
 });
 
+Route::get('/siswa', 'StudentController@index')->name('student');
+Route::prefix('siswa')->group(function () {
+    Route::get('/json', 'StudentController@json');
+    Route::get('/{id}', 'StudentController@show')->name('student.show');
+    Route::post('/', 'StudentController@store')->name('student.store');
+    Route::put('/{id}', 'StudentController@update')->name('student.update');
+    Route::delete('/{id}', 'StudentController@destroy')->name('student.destroy');
+});
+
 Auth::routes(['verify' => true]);

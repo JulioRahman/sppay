@@ -70,14 +70,14 @@
       </li>
 
       <!-- Nav Item - User Management Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
+      <li class="nav-item {{ Route::is('student') ? 'active' : '' }}"">
+        <a class="nav-link {{ Route::is('student') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
           <i class="fas fa-fw fa-user-cog"></i>
           <span>Manajemen Pengguna</span>
         </a>
-        <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
+        <div id="collapseUser" class="collapse {{ Route::is('student') ? 'show' : '' }}" aria-labelledby="headingUser" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="javascript:void(0)">Siswa</a>
+            <a class="collapse-item {{ Route::is('student') ? 'active' : '' }}" href="{{ route('student') }}">Siswa</a>
             <a class="collapse-item" href="javascript:void(0)">Petugas</a>
             <a class="collapse-item" href="javascript:void(0)">Admin</a>
           </div>
@@ -90,7 +90,7 @@
           <i class="fas fa-fw fa-table"></i>
           <span>Data Master</span>
         </a>
-        <div id="collapseTwo" class="collapse {{ Route::is('spp') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse {{ Route::is('spp') || Route::is('class') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item {{ Route::is('spp') ? 'active' : '' }}" href="{{ route('spp') }}">SPP</a>
             <a class="collapse-item {{ Route::is('class') ? 'active' : '' }}" href="{{ route('class') }}">Kelas</a>
@@ -221,16 +221,25 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.11/dist/sweetalert2.all.min.js"></script>
   
   <!-- App scripts -->
-  @stack('scripts')
   <script  type="text/javascript">
     function setSideBarColapsed() {
       if (localStorage.getItem("sideBarColapsed") == "true") {
         localStorage.setItem("sideBarColapsed", "false");
+        @if(Route::is('student'))
+        document.getElementById("collapseUser").classList.add("show");
+        @endif
+      } else {
+        localStorage.setItem("sideBarColapsed", "true");
+        document.getElementById("collapseUser").classList.remove("show");
+      }
+
+      if (localStorage.getItem("sideBarColapsed2") == "true") {
+        localStorage.setItem("sideBarColapsed2", "false");
         @if(Route::is('spp') || Route::is('class'))
         document.getElementById("collapseTwo").classList.add("show");
         @endif
       } else {
-        localStorage.setItem("sideBarColapsed", "true");
+        localStorage.setItem("sideBarColapsed2", "true");
         document.getElementById("collapseTwo").classList.remove("show");
       }
     }
@@ -238,14 +247,29 @@
     $(document).ready( function () {
       if (localStorage.getItem("sideBarColapsed") == "true") {
         document.getElementById("accordionSidebar").classList.add("toggled");
+        document.getElementById("collapseUser").classList.remove("show");
+      } else {
+        @if(Route::is('student'))
+        document.getElementById("collapseUser").classList.add("show");
+        @endif
+      }
+      if (localStorage.getItem("sideBarColapsed2") == "true") {
+        document.getElementById("accordionSidebar").classList.add("toggled");
         document.getElementById("collapseTwo").classList.remove("show");
       } else {
-        @if(Route::is('spp')|| Route::is('class'))
+        @if(Route::is('spp') || Route::is('class'))
         document.getElementById("collapseTwo").classList.add("show");
         @endif
       }
     });
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
   </script>
+  @stack('scripts')
 
 </body>
 

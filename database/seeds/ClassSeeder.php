@@ -16,378 +16,378 @@ class ClassSeeder extends Seeder
         $table = DB::table('__classes');
         $table->insert([
             'grade' => '10',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TEI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TEI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TEDK',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TEDK',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TOI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TOI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TPTU',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TPTU',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'IOP',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'IOP',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'MEKA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'MEKA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'SIJA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'SIJA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'RPL',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'RPL',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'PFPT',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '10',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'PFPT',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TEI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TEI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TEDK',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TEDK',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TOI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TOI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TPTU',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TPTU',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'IOP',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'IOP',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'MEKA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'MEKA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'SIJA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'SIJA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'RPL',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'RPL',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'PFPT',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '11',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'PFPT',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TEI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TEI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TEDK',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TEDK',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TOI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TOI',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'TPTU',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'TPTU',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'IOP',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'IOP',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'MEKA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'MEKA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'SIJA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'SIJA',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'RPL',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'RPL',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'A',
+            'class_name' => 'A',
             'majors' => 'PFPT',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $table->insert([
             'grade' => '12',
-            'name' => 'B',
+            'class_name' => 'B',
             'majors' => 'PFPT',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
