@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'Data Kelas')
+@section('title', 'Manajemen ' . ucwords($role))
 
 @section('content')
 <!-- Begin Page Content -->
@@ -8,7 +8,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Kelas</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{ ucwords($role) }}</h1>
     </div>
 
     <div class="row">
@@ -17,47 +17,56 @@
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary" id="title">Tambah Kelas</h6>
+                    <h6 class="m-0 font-weight-bold text-primary" id="title">Tambah {{ ucwords($role) }}</h6>
                 </div>
                 <div class="card-body">
-                    <form id="formKelas">
+                    <form id="formUser">
                         @csrf
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <label for="grade">Tingkat</label>
-                                <select class="form-control" id="grade" name="grade">
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                    <option value="13">13</option>
-                                </select>
-                            </div>
+                        <div class="form-group">
+                            <label for="name">Nama</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                                placeholder=""  name="name" value="{{ old('name') }}" required autocomplete="name">
 
-                            <div class="form-group col">
-                                <label for="class_name">Nama</label>
-                                <select class="form-control" id="class_name" name="class_name">
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="C">C</option>
-                                    <option value="D">D</option>
-                                </select>
-                            </div>
+                            @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <div class="form-group">
-                            <label for="majors">Kompetensi Keahlian</label>
-                            <select class="form-control" id="majors" name="majors">
-                                <option value="TEI">TEI</option>
-                                <option value="TEDK">TEDK</option>
-                                <option value="TOI">TOI</option>
-                                <option value="TPTU">TPTU</option>
-                                <option value="IOP">IOP</option>
-                                <option value="MEKA">MEKA</option>
-                                <option value="SIJA">SIJA</option>
-                                <option value="RPL">RPL</option>
-                                <option value="PFPT">PFPT</option>
-                            </select>
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                                placeholder=""  name="email" value="{{ old('email') }}" required autocomplete="email">
+
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
+
+                        <div class="form-row" id="formPassword">
+                            <div class="form-group col">
+                                <label for="password">Kata Sandi</label>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    id="password" placeholder="" name="password" required autocomplete="new-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group col">
+                                <label for="password-confirm">Ulangi Kata Sandi</label>
+                                <input type="password" class="form-control"
+                                    id="password-confirm" placeholder=""  name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="role" value="{{ strtoupper($role) }}" />
 
                         <button id="btnSubmit" type="submit" class="btn btn-primary float-right">Simpan</button>
                         <button id="btnReset" type="reset" class="btn btn-danger float-right mr-2"
@@ -77,9 +86,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
-                                    <th scope="col">Tingkat</th>
                                     <th scope="col">Nama</th>
-                                    <th scope="col">Kompetensi Keahlian</th>
+                                    <th scope="col">Email</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -99,7 +107,7 @@
 <script>
     $(document).ready( function () {
         var isCreate = true;
-        var classId;
+        var userId;
         var type;
         var url;
         var msg;
@@ -107,18 +115,17 @@
         var table = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: 'kelas/json',
+            ajax: '{{ $role }}/json',
             columns: [
                 { data: 'id', name: 'id' },
-                { data: 'grade', name: 'grade' },
-                { data: 'class_name', name: 'class_name' },
-                { data: 'majors', name: 'majors' },
+                { data: 'name', name: 'name' },
+                { data: 'email', name: 'email' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             "columnDefs": [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<a href='' class='pr-2' id='editData'><i class='fas fa-edit'></i></a>" + 
+                "defaultContent": "<a href='' class='pr-2' id='editData'><i class='fas fa-edit'></i></a>" +
                     "<a href='' id='deleteData'><i class='fas fa-trash'></i></a>"
             }],
             "language": {
@@ -144,14 +151,16 @@
                     e.preventDefault();
 
                     var data = table.row( $(this).parents('tr') ).data();
-                    $("#formKelas select[name=grade]").val(data.grade).focus();
-                    $("#formKelas select[name=class_name]").val(data.class_name);
-                    $("#formKelas select[name=majors]").val(data.majors);
+                    $("#formUser input[name=name]").val(data.name).focus();
+                    $("#formUser input[name=email]").val(data.email);
                     isCreate = false;
-                    classId = data.id;
-                    $("#title").html("Sunting Kelas");
+                    userId = data.id;
+                    $("#title").html("Sunting {{ $role }}");
                     $("#btnSubmit").html("Ubah");
                     $("#btnReset").show();
+                    $("#formPassword").hide();
+                    $("#formUser input[name=password]").prop("required", false);
+                    $("#formUser input[name=password_confirmation]").prop("required", false);
                 });
 
                 $('#dataTable tbody').on( 'click', '#deleteData', function(e) {
@@ -160,7 +169,7 @@
                     var data = table.row( $(this).parents('tr') ).data();
                     Swal.fire({
                         title: 'Apakah Anda Yakin?',
-                        text: 'Kelas ' + data.grade + ' ' + data.majors + ' ' + data.class_name + ' akan dihapus',
+                        text: 'User ' + data.name + ' akan dihapus',
                         icon: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'Hapus',
@@ -169,7 +178,7 @@
                         if (result.value) {
                             $.ajax({
                                 type: 'DELETE',
-                                url: '/kelas/' + data.id,
+                                url: '/pengguna/{{ $role }}/' + data.id,
                                 dataType: 'json',
                                 success: function(data) {
                                     table.ajax.reload(null, false);
@@ -190,14 +199,14 @@
             }
         });
 
-        $("#formKelas").on('submit', function(e) {
+        $("#formUser").on('submit', function(e) {
             if (isCreate) {
                 type = 'POST';
-                url = '/kelas';
+                url = '{{ $role }}';
                 msg = 'tambahkan';
             } else {
                 type = 'PUT';
-                url = '/kelas/' + classId;
+                url = '/pengguna/{{ $role }}/' + userId;
                 msg = 'ubah';
             }
             
@@ -205,25 +214,27 @@
                 type: type,
                 url: url,
                 data: {
-                    grade: $("#formKelas select[name=grade]").val(),
-                    class_name: $("#formKelas select[name=class_name]").val(),
-                    majors: $("#formKelas select[name=majors]").val()
+                    name: $("#formUser input[name=name]").val(),
+                    email: $("#formUser input[name=email]").val(),
+                    password: $("#formUser input[name=password]").val(),
+                    password_confirmation: $("#formUser input[name=password_confirmation]").val(),
+                    role: $("#formUser input[name=role]").val()
                 },
                 dataType: 'json',
                 success: function(data) {
-                    $("#title").html("Tambah Kelas");
-                    $('#formKelas').trigger("reset");
+                    $("#title").html("Tambah {{ ucwords($role) }}");
+                    $('#formUser').trigger("reset");
                     table.ajax.reload(null, false);
+                    console.log(data);
                     Swal.fire({
                         title: 'Berhasil',
-                        text: 'Kelas ' + data.class.grade + ' ' + data.class.majors + ' ' + data.class.class_name + ' berhasil di' + msg,
+                        text: '{{ ucwords($role) }} ' + data.user.name + ' berhasil di' + msg,
                         icon: 'success',
                         showCancelButton: false,
                         timer: 1500
                     });
                 },
                 error: function(data) {
-                    $("#title").html("Tambah Kelas");
                     var errors = $.parseJSON(data.responseText);
                     
                     var message = '';
@@ -245,12 +256,15 @@
             e.preventDefault();
         });
 
-        $("#formKelas").on("reset", function() {
+        $("#formUser").on("reset", function() {
             $("#btnReset").hide();
             isCreate = true;
-            classId = '';
-            $("#title").html("Tambah Kelas");
+            userId = '';
+            $("#title").html("Tambah {{ ucwords($role) }}");
             $("#btnSubmit").html("Simpan");
+            $("#formPassword").show();
+            $("#formUser input[name=password]").prop("required", true);
+            $("#formUser input[name=password_confirmation]").prop("required", true);
         })
     });
 </script>

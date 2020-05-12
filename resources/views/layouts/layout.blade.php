@@ -24,7 +24,7 @@
   <meta name="theme-color" content="#ffffff">
 
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
@@ -71,15 +71,15 @@
 
       <!-- Nav Item - User Management Menu -->
       <li class="nav-item {{ Route::is('student') ? 'active' : '' }}"">
-        <a class="nav-link {{ Route::is('student') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
+        <a class="nav-link {{ Route::is('student') || Route::is('user') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
           <i class="fas fa-fw fa-user-cog"></i>
           <span>Manajemen Pengguna</span>
         </a>
-        <div id="collapseUser" class="collapse {{ Route::is('student') ? 'show' : '' }}" aria-labelledby="headingUser" data-parent="#accordionSidebar">
+        <div id="collapseUser" class="collapse {{ Route::is('student') || Route::is('user') ? 'show' : '' }}" aria-labelledby="headingUser" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item {{ Route::is('student') ? 'active' : '' }}" href="{{ route('student') }}">Siswa</a>
-            <a class="collapse-item" href="javascript:void(0)">Petugas</a>
-            <a class="collapse-item" href="javascript:void(0)">Admin</a>
+            <a class="collapse-item {{ Request::is('pengguna/petugas') ? 'active' : '' }}" href="{{ url('pengguna/petugas') }}">Petugas</a>
+            <a class="collapse-item {{ Request::is('pengguna/admin') ? 'active' : '' }}" href="{{ url('pengguna/admin') }}">Admin</a>
           </div>
         </div>
       </li>
@@ -203,11 +203,11 @@
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
@@ -225,7 +225,7 @@
     function setSideBarColapsed() {
       if (localStorage.getItem("sideBarColapsed") == "true") {
         localStorage.setItem("sideBarColapsed", "false");
-        @if(Route::is('student'))
+        @if(Route::is('student') || Request::is('pengguna/admin') || Request::is('pengguna/petugas'))
         document.getElementById("collapseUser").classList.add("show");
         @endif
       } else {
@@ -249,7 +249,7 @@
         document.getElementById("accordionSidebar").classList.add("toggled");
         document.getElementById("collapseUser").classList.remove("show");
       } else {
-        @if(Route::is('student'))
+        @if(Route::is('student') || Request::is('pengguna/admin') || Request::is('pengguna/petugas'))
         document.getElementById("collapseUser").classList.add("show");
         @endif
       }

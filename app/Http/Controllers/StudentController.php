@@ -14,7 +14,7 @@ class StudentController extends Controller
     {
         $this->middleware(['auth', 'verified']);
 
-        $this->middleware('check_user_role:' . \App\Role\UserRole::ROLE_ADMIN);
+        $this->middleware('check_user_role:' . \App\Role\UserRole::ROLE_OPERATOR);
     }
 
     public function index()

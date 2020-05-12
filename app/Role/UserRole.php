@@ -10,8 +10,8 @@ class UserRole
 {
 
     const ROLE_ADMIN = 'ADMIN';
-    const ROLE_OPERATOR = 'OPERATOR';
-    const ROLE_STUDENT = 'STUDENT';
+    const ROLE_OPERATOR = 'PETUGAS';
+    const ROLE_STUDENT = 'SISWA';
 
     /**
      * @var array

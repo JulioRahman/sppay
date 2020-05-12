@@ -54,26 +54,13 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function hasRole($role)
     {
-        return $role === $this->getRoles();
-    }
-
-    /***
-     * @param $role
-     * @return mixed
-     */
-    public function hasRoles($role)
-    {
-        $currentRole = $this->getRoles();
-        if (!$role === $currentRole) {
-            return false;
-        }
-        return true;
+        return $role === $this->getRole();
     }
 
     /**
      * @return string
      */
-    public function getRoles()
+    public function getRole()
     {
         $role = $this->getAttribute('role');
 

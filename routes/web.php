@@ -11,6 +11,9 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return view('dashboard');
 })->name('dashboard')->middleware('auth');
@@ -40,6 +43,15 @@ Route::prefix('siswa')->group(function () {
     Route::post('/', 'StudentController@store')->name('student.store');
     Route::put('/{id}', 'StudentController@update')->name('student.update');
     Route::delete('/{id}', 'StudentController@destroy')->name('student.destroy');
+});
+
+Route::get('/pengguna/{role}', 'UserController@index')->name('user');
+Route::prefix('pengguna/{role}')->group(function () {
+    Route::get('/json', 'UserController@json');
+    Route::get('/{id}', 'UserController@show')->name('user.show');
+    Route::post('/', 'UserController@store')->name('user.store');
+    Route::put('/{id}', 'UserController@update')->name('user.update');
+    Route::delete('/{id}', 'UserController@destroy')->name('user.destroy');
 });
 
 Auth::routes(['verify' => true]);
