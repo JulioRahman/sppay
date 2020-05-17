@@ -16,8 +16,9 @@ class _Class extends Model
      */
     public function getGradeAttribute($value)
     {
+        $year = intval(date('Y', strtotime('+6 month', strtotime(date('r')))));
         $generation = $this->getAttribute('generation');
-        return (intval(date('Y')) - (1977 + $generation)) + 13;
+        return ($year - (1977 + $generation)) + 13;
     }
 
     /**
@@ -28,6 +29,7 @@ class _Class extends Model
      */
     public function setGradeAttribute($value)
     {
-        $this->attributes['generation'] = (intval(date('Y')) - 1977 - $value) + 13;
+        $year = intval(date('Y', strtotime('+6 month', strtotime(date('r')))));
+        $this->attributes['generation'] = ($year - 1977 - $value) + 13;
     }
 }

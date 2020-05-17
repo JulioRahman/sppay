@@ -49,7 +49,7 @@
                                     <span class="input-group-text">Rp</span>
                                 </div>
                                 <input id="nominal" type="text" class="form-control" name="nominal" placeholder=""
-                                    aria-label="Username" aria-describedby="nominal" min="0" required>
+                                    aria-label="Username" aria-describedby="nominal" min="1" required>
                             </div>
                         </div>
 
@@ -92,6 +92,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"
     integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.11/dist/sweetalert2.all.min.js"></script>
+<script src="{{ asset('js/jquery.number.js') }}"></script>
 <script>
     function addSchoolYear() {
         let schoolYear1 = document.getElementById("schoolYear1");
@@ -126,7 +127,9 @@
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'school_year', name: 'school_year' },
-                { data: 'nominal', name: 'nominal' },
+                { data: 'nominal', name: 'nominal', render: function (data) {
+                    return 'Rp' + $.number(data, 0, ',', '.');
+                } },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             "columnDefs": [{
@@ -226,7 +229,7 @@
                 },
                 dataType: 'json',
                 success: function(data) {
-                    $("#title").html("Tambah Kelas");
+                    $("#title").html("Tambah SPP");
                     $('#formSpp').trigger("reset");
                     table.ajax.reload(null, false);
                     Swal.fire({
@@ -238,7 +241,7 @@
                     });
                 },
                 error: function(data) {
-                    $("#title").html("Tambah Kelas");
+                    $("#title").html("Tambah SPP");
                     var errors = $.parseJSON(data.responseText);
                     
                     var message = '';
@@ -264,7 +267,7 @@
             $("#btnReset").hide();
             isCreate = true;
             sppId = '';
-            $("#title").html("Tambah Kelas");
+            $("#title").html("Tambah SPP");
             $("#btnSubmit").html("Simpan");
         })
     });

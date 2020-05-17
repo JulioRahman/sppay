@@ -54,4 +54,17 @@ Route::prefix('pengguna/{role}')->group(function () {
     Route::delete('/{id}', 'UserController@destroy')->name('user.destroy');
 });
 
+Route::get('/bayar', 'PaymentController@index')->name('payment');
+Route::prefix('bayar')->group(function () {
+    Route::get('/json', 'PaymentController@json');
+    Route::get('/{id}', 'PaymentController@show')->name('payment.show');
+    Route::post('/', 'PaymentController@store')->name('payment.store');
+    Route::put('/{id}', 'PaymentController@update')->name('payment.update');
+    Route::delete('/{id}', 'PaymentController@destroy')->name('payment.destroy');
+});
+
+Route::fallback(function () {
+    return view('errors.404');
+});
+
 Auth::routes(['verify' => true]);

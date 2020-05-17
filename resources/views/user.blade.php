@@ -155,7 +155,7 @@
                     $("#formUser input[name=email]").val(data.email);
                     isCreate = false;
                     userId = data.id;
-                    $("#title").html("Sunting {{ $role }}");
+                    $("#title").html("Sunting {{ ucwords($role) }}");
                     $("#btnSubmit").html("Ubah");
                     $("#btnReset").show();
                     $("#formPassword").hide();

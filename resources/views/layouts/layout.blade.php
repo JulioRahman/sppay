@@ -64,7 +64,7 @@
 
       <!-- Nav Item - Payment -->
       <li class="nav-item {{ Route::is('payment') ? 'active' : '' }}">
-        <a class="nav-link jr-accent-fade" href="javascript:void(0)">
+        <a class="nav-link jr-accent-fade" href="{{ route('payment') }}">
           <i class="fas fa-fw fa-money-bill-wave"></i>
           <span>Pembayaran</span></a>
       </li>
