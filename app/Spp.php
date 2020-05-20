@@ -13,4 +13,12 @@ class Spp extends Model
         $school_year = $this->getAttribute('school_year');
         return substr($school_year, 0, 4);
     }
+
+    /**
+     * Get the students for the spp.
+     */
+    public function students()
+    {
+        return $this->hasMany('App\Student');
+    }
 }

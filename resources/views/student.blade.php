@@ -13,7 +13,7 @@
 
     <div class="row">
 
-        <div class="col-lg-4">
+        <div class="col-lg-6">
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -85,7 +85,7 @@
 
         </div>
 
-        <div class="col-lg-8">
+        <div class="col-lg-12">
 
             <div class="card shadow mb-4">
                 <div class="card-body">
@@ -130,7 +130,7 @@
                 { data: 'nis', name: 'nis' },
                 { data: 'student_name', name: 'student_name' },
                 { data: 'null', render: function ( data, type, row ) {
-                        return row.grade + ' ' + row.majors + ' ' + row.class_name;
+                        return row.class.grade + ' ' + row.class.majors + ' ' + row.class.class_name;
                     }
                 },
                 { data: 'action', name: 'action', orderable: false, searchable: false }

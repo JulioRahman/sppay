@@ -32,4 +32,12 @@ class _Class extends Model
         $year = intval(date('Y', strtotime('+6 month', strtotime(date('r')))));
         $this->attributes['generation'] = ($year - 1977 - $value) + 13;
     }
+
+    /**
+     * Get the students for the class.
+     */
+    public function students()
+    {
+        return $this->hasMany('App\Student');
+    }
 }

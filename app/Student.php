@@ -12,4 +12,20 @@ class Student extends Model
      * @var string
      */
     protected $primaryKey = 'nisn';
+
+    /**
+     * Get the class that owns the student.
+     */
+    public function class()
+    {
+        return $this->belongsTo('App\_Class', '__class_id');
+    }
+
+    /**
+     * Get the spp that owns the student.
+     */
+    public function spp()
+    {
+        return $this->belongsTo('App\Spp');
+    }
 }

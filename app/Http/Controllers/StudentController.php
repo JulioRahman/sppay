@@ -8,6 +8,7 @@ use App\Spp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\Datatables\Datatables;
 
 class StudentController extends Controller
 {
@@ -117,9 +118,12 @@ class StudentController extends Controller
 
     public function json()
     {
-        return datatables(DB::table('students')
-                ->join('__classes', 'students.__class_id', '=', '__classes.id')
-                ->join('spps', 'students.spp_id', '=', 'spps.id'))
+        // return datatables(DB::table('students')
+        //         ->join('__classes', 'students.__class_id', '=', '__classes.id')
+        //         ->join('spps', 'students.spp_id', '=', 'spps.id'))
+        //     ->toJson();
+
+        return Datatables::of(Student::with('class'))
             ->toJson();
     }
 }
