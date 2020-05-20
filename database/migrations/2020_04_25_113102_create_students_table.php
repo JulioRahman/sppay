@@ -23,6 +23,7 @@ class CreateStudentsTable extends Migration
             $table->string('telephone_number')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()
                 ->onDelete('restrict')->onUpdate('restrict');
+            $table->foreignId('spp_id')->constrained();
             $table->timestamps();
         });
     }

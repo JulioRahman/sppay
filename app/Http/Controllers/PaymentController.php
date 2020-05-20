@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\_Class;
 use App\Payment;
-use App\Spp;
+use App\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Validator;
 
 class PaymentController extends Controller
@@ -22,18 +21,13 @@ class PaymentController extends Controller
 
     public function index()
     {
-        $spps = Spp::all()->filter(function($item)
-        {
-            return $item->year === date('Y', strtotime('+6 month', strtotime(date('r'))));
-        });
-        return view('payment', ['spps' => $spps]);
+        return view('payment');
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->input(), array(
             'nisn' => 'required',
-            'spp' => 'required',
             'month_paid' => 'required',
         ));
 
@@ -47,14 +41,16 @@ class PaymentController extends Controller
         $payment = new Payment();
         $payment->operator_id = Auth::id();
         $payment->student_nisn = $request->input('nisn');
-        $payment->spp_id = $request->input('spp');
         $payment->payment_date = now();
         $payment->month_paid = $request->input('month_paid');
         $payment->save();
 
+        $student = Student::find($request->input('nisn'));
+
         return response()->json([
             'error' => false,
             'payment'  => $payment,
+            'student'  => $student,
         ], 200);
     }
 
@@ -111,7 +107,7 @@ class PaymentController extends Controller
             ->join('users', 'payments.operator_id', '=', 'users.id')
             ->join('students', 'payments.student_nisn', '=', 'students.nisn')
             ->join('__classes', 'students.__class_id', '=', '__classes.id')
-            ->join('spps', 'payments.spp_id', '=', 'spps.id'))
+            ->join('spps', 'students.spp_id', '=', 'spps.id'))
             ->toJson();
     }
 }

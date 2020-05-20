@@ -20,23 +20,12 @@
                     <h6 class="m-0 font-weight-bold text-primary" id="title">Pembayaran SPP</h6>
                 </div>
                 <div class="card-body">
-                    <form id="formKelas">
+                    <form id="formBayar">
                         @csrf
                         <div class="form-group">
                             <label for="nisn">NISN</label>
                             <input type="text" class="form-control" id="nisn" name="nisn" placeholder=""
                                 required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="spp">SPP</label>
-                            <select class="form-control" id="spp" name="spp">
-                                @foreach ($spps as $spp)
-                                <option value="{{ $spp->id }}">
-                                    {{ $spp->school_year . " - Rp" . number_format($spp->nominal, 0, ",", ".") }}
-                                </option>
-                                @endforeach
-                            </select>
                         </div>
 
                         <div class="form-group">
@@ -138,9 +127,9 @@
                 //     e.preventDefault();
 
                 //     var data = table.row( $(this).parents('tr') ).data();
-                //     $("#formKelas select[name=grade]").val(data.grade).focus();
-                //     $("#formKelas select[name=class_name]").val(data.class_name);
-                //     $("#formKelas select[name=majors]").val(data.majors);
+                //     $("#formBayar select[name=grade]").val(data.grade).focus();
+                //     $("#formBayar select[name=class_name]").val(data.class_name);
+                //     $("#formBayar select[name=majors]").val(data.majors);
                 //     isCreate = false;
                 //     paymentId = data.id;
                 //     $("#title").html("Sunting Kelas");
@@ -184,7 +173,7 @@
             }
         });
 
-        $("#formKelas").on('submit', function(e) {
+        $("#formBayar").on('submit', function(e) {
             if (isCreate) {
                 type = 'POST';
                 url = '/bayar';
@@ -199,14 +188,13 @@
                 type: type,
                 url: url,
                 data: {
-                    nisn: $("#formKelas input[name=nisn]").val(),
-                    spp: $("#formKelas select[name=spp]").val(),
-                    month_paid: $("#formKelas input[name=month_paid]").val()
+                    nisn: $("#formBayar input[name=nisn]").val(),
+                    month_paid: $("#formBayar input[name=month_paid]").val()
                 },
                 dataType: 'json',
                 success: function(data) {
                     $("#title").html("Pembayaran SPP");
-                    $('#formKelas').trigger("reset");
+                    $('#formBayar').trigger("reset");
                     table.ajax.reload(null, false);
                     Swal.fire({
                         title: 'Berhasil',
@@ -239,7 +227,7 @@
             e.preventDefault();
         });
 
-        $("#formKelas").on("reset", function() {
+        $("#formBayar").on("reset", function() {
             $("#btnReset").hide();
             isCreate = true;
             paymentId = '';

@@ -53,16 +53,27 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group d-none">
                             <label for="address">Alamat</label>
                             <textarea class="form-control" id="address" name="address" placeholder="" rows="3"
                                 disabled></textarea>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group d-none">
                             <label for="telephone_number">Nomor Telepon</label>
                             <input type="tel" class="form-control" id="telephone_number" name="telephone_number"
                                 placeholder="" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="spp">SPP</label>
+                            <select class="form-control" id="spp" name="spp">
+                                @foreach ($spps as $spp)
+                                <option value="{{ $spp->id }}">
+                                    {{ $spp->school_year . " - Rp" . number_format($spp->nominal, 0, ",", ".") }}
+                                </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <button id="btnSubmit" type="submit" class="btn btn-primary float-right">Simpan</button>
@@ -223,7 +234,8 @@
                     nisn: $("#formSiswa input[name=nisn]").val(),
                     nis: $("#formSiswa input[name=nis]").val(),
                     student_name: $("#formSiswa input[name=student_name]").val(),
-                    __class_id: $("#formSiswa select[name=class]").val()
+                    __class_id: $("#formSiswa select[name=class]").val(),
+                    spp: $("#formSiswa select[name=spp]").val()
                 },
                 dataType: 'json',
                 success: function(data) {
