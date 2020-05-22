@@ -70,4 +70,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $role;
     }
+
+    /**
+     * Get the payments for the operator.
+     */
+    public function payments()
+    {
+        return $this->hasMany('App\Payment');
+    }
 }

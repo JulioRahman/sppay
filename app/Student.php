@@ -14,6 +14,13 @@ class Student extends Model
     protected $primaryKey = 'nisn';
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
      * Get the class that owns the student.
      */
     public function class()
@@ -27,5 +34,13 @@ class Student extends Model
     public function spp()
     {
         return $this->belongsTo('App\Spp');
+    }
+
+    /**
+     * Get the payments for the student.
+     */
+    public function payments()
+    {
+        return $this->hasMany('App\Payment', 'student_nisn', 'nisn');
     }
 }

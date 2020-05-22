@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Student;
 use App\_Class;
+use App\Payment;
 use App\Spp;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Yajra\Datatables\Datatables;
 
@@ -66,7 +66,7 @@ class StudentController extends Controller
     public function show($id)
     {
         $student = Student::find($id);
-        $class = _Class::find($student->__class_id);
+        $class = $student->class;
 
         return response()->json([
             'error' => false,
@@ -118,12 +118,19 @@ class StudentController extends Controller
 
     public function json()
     {
-        // return datatables(DB::table('students')
-        //         ->join('__classes', 'students.__class_id', '=', '__classes.id')
-        //         ->join('spps', 'students.spp_id', '=', 'spps.id'))
-        //     ->toJson();
-
         return Datatables::of(Student::with('class'))
+            ->toJson();
+    }
+
+    public function detail()
+    {
+        return view('student.detail');
+    }
+
+    public function jsonDetail()
+    {
+        return Datatables::of(Payment::with('operator', 'student', 'student.spp')
+            ->get())
             ->toJson();
     }
 }

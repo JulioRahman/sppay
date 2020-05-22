@@ -38,14 +38,15 @@ class PaymentController extends Controller
             ], 422);
         }
 
+        $student = Student::find($request->input('nisn'));
+
         $payment = new Payment();
         $payment->operator_id = Auth::id();
         $payment->student_nisn = $request->input('nisn');
+        $payment->spp_id = $student->spp_id;
         $payment->payment_date = now();
         $payment->month_paid = $request->input('month_paid');
         $payment->save();
-
-        $student = Student::find($request->input('nisn'));
 
         return response()->json([
             'error' => false,
