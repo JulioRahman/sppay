@@ -12,79 +12,85 @@
     </div>
 
     <div class="row">
-
-        <div class="col-lg-6">
-
+        <div class="col-lg-12">
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
+                <a href="#collapseCard" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="collapseCard" id="collapseCardButton">
                     <h6 class="m-0 font-weight-bold text-primary" id="title">Tambah Siswa</h6>
-                </div>
-                <div class="card-body">
+                </a>
+                <div class="collapse" id="collapseCard">
                     <form id="formSiswa">
                         @csrf
-                        <div class="form-row">
-                            <div class="form-group col">
-                                <label for="nisn">NISN</label>
-                                <input type="number" class="form-control" id="nisn" name="nisn" placeholder=""
-                                    min="1" max="9999999999" maxlength="10" required>
+                        <div class="row card-body">
+                            <div class="col-lg-6">
+                                <div class="form-row">
+                                    <div class="form-group col">
+                                        <label for="nisn">NISN</label>
+                                        <input type="number" class="form-control" id="nisn" name="nisn" placeholder=""
+                                            min="1" max="9999999999" maxlength="10" required>
+                                    </div>
+
+                                    <div class="form-group col">
+                                        <label for="nis">NIS</label>
+                                        <input type="number" class="form-control" id="nis" name="nis" placeholder=""
+                                            min="1" max="999999999" maxlength="9" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="student_name">Nama</label>
+                                    <input type="text" class="form-control" id="student_name" name="student_name"
+                                        placeholder="" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="class">Kelas</label>
+                                    <select class="form-control" id="class" name="class">
+                                        @foreach ($classes as $class)
+                                        <option value="{{ $class->id }}">
+                                            {{ $class->grade . " " . $class->majors . " " . $class->class_name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="spp">SPP</label>
+                                    <select class="form-control" id="spp" name="spp">
+                                        @foreach ($spps as $spp)
+                                        <option value="{{ $spp->id }}">
+                                            {{ $spp->school_year . " - Rp" . number_format($spp->nominal, 0, ",", ".") }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="form-group col">
-                                <label for="nis">NIS</label>
-                                <input type="number" class="form-control" id="nis" name="nis" placeholder=""
-                                    min="1" max="999999999" maxlength="9" required>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="address">Alamat</label>
+                                    <textarea class="form-control" id="address" name="address" placeholder="" rows="3"
+                                        disabled></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="telephone_number">Nomor Telepon</label>
+                                    <input type="tel" class="form-control" id="telephone_number" name="telephone_number"
+                                        placeholder="" disabled>
+                                </div>
+
+                                <button id="btnSubmit" type="submit" class="btn btn-primary float-right">Simpan</button>
+                                <button id="btnReset" type="reset" class="btn btn-danger float-right mr-2"
+                                    style="display: none">Batal</button>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="student_name">Nama</label>
-                            <input type="text" class="form-control" id="student_name" name="student_name" placeholder=""
-                                required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="class">Kelas</label>
-                            <select class="form-control" id="class" name="class">
-                                @foreach ($classes as $class)
-                                <option value="{{ $class->id }}">
-                                    {{ $class->grade . " " . $class->majors . " " . $class->class_name }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group d-none">
-                            <label for="address">Alamat</label>
-                            <textarea class="form-control" id="address" name="address" placeholder="" rows="3"
-                                disabled></textarea>
-                        </div>
-
-                        <div class="form-group d-none">
-                            <label for="telephone_number">Nomor Telepon</label>
-                            <input type="tel" class="form-control" id="telephone_number" name="telephone_number"
-                                placeholder="" disabled>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="spp">SPP</label>
-                            <select class="form-control" id="spp" name="spp">
-                                @foreach ($spps as $spp)
-                                <option value="{{ $spp->id }}">
-                                    {{ $spp->school_year . " - Rp" . number_format($spp->nominal, 0, ",", ".") }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <button id="btnSubmit" type="submit" class="btn btn-primary float-right">Simpan</button>
-                        <button id="btnReset" type="reset" class="btn btn-danger float-right mr-2"
-                            style="display: none">Batal</button>
                     </form>
                 </div>
             </div>
-
         </div>
+    </div>
 
+    <div class="row">
         <div class="col-lg-12">
 
             <div class="card shadow mb-4">
@@ -106,7 +112,6 @@
             </div>
 
         </div>
-
     </div>
 </div>
 <!-- /.container-fluid -->
@@ -167,6 +172,7 @@
 
                 $('#dataTable tbody').on( 'click', '#editData', function(e) {
                     e.preventDefault();
+                    toggleCollapseCard(false);
 
                     var data = table.row( $(this).parents('tr') ).data();
                     $("#formSiswa input[name=nisn]").val(data.nisn).focus();
@@ -273,12 +279,20 @@
         });
 
         $("#formSiswa").on("reset", function() {
+            toggleCollapseCard(true);
             $("#btnReset").hide();
             isCreate = true;
             studentId = '';
             $("#title").html("Tambah Siswa");
             $("#btnSubmit").html("Simpan");
         })
+
+        function toggleCollapseCard(collapse) {
+            if ($('#collapseCardButton').attr('aria-expanded') === 'false' && !collapse
+                || $('#collapseCardButton').attr('aria-expanded') === 'true' && collapse) {
+                $('#collapseCardButton').trigger('click');
+            }
+        }
     });
 </script>
 @endpush

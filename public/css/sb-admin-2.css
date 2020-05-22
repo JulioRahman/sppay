@@ -10541,6 +10541,7 @@ a:focus {
 
 .card .card-header[data-toggle="collapse"].collapsed {
   border-radius: 0.35rem;
+  background-color: transparent;
 }
 
 .card .card-header[data-toggle="collapse"].collapsed::after {
