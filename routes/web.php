@@ -43,8 +43,8 @@ Route::prefix('siswa')->group(function () {
     Route::post('/', 'StudentController@store')->name('student.store');
     Route::put('/{id}', 'StudentController@update')->name('student.update');
     Route::delete('/{id}', 'StudentController@destroy')->name('student.destroy');
-    Route::get('/detail/json', 'StudentController@jsonDetail');
-    Route::get('/detail/{id}', 'StudentController@detail')->name('student.detail');
+    Route::get('/detail/json/{id}', 'StudentController@jsonDetail');
+    Route::get('/detail/{id?}', 'StudentController@detail')->name('student.detail');
 });
 
 Route::get('/pengguna/{role}', 'UserController@index')->name('user');

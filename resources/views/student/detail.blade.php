@@ -96,7 +96,6 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th scope="col">NISN</th>
                                     <th scope="col">Bulan</th>
                                     <th scope="col">Tahun Ajaran</th>
                                     <th scope="col">Jumlah Bayar</th>
@@ -118,180 +117,48 @@
 
 @push('scripts')
 <script>
-    // $(document).ready( function () {
-    //     var isCreate = true;
-    //     var studentId;
-    //     var type;
-    //     var url;
-    //     var msg;
-
-    //     var table = $('#dataTable').DataTable({
-    //         processing: true,
-    //         serverSide: true,
-    //         ajax: 'siswa/json',
-    //         columns: [
-    //             { data: 'nisn', name: 'nisn' },
-    //             { data: 'nis', name: 'nis' },
-    //             { data: 'student_name', name: 'student_name' },
-    //             { data: 'null', render: function ( data, type, row ) {
-    //                     return row.class.grade + ' ' + row.class.majors + ' ' + row.class.class_name;
-    //                 }
-    //             },
-    //             { data: 'action', name: 'action', orderable: false, searchable: false }
-    //         ],
-    //         "columnDefs": [{
-    //             "targets": -1,
-    //             "data": null,
-    //             "defaultContent": "<a href='' class='pr-2' id='viewData' title='Dalam Pengembangan'><i class='fas fa-eye'></i></a>" +
-    //                 "<a href='' class='pr-2' id='editData'><i class='fas fa-edit'></i></a>" +
-    //                 "<a href='' id='deleteData'><i class='fas fa-trash'></i></a>"
-    //         }],
-    //         "language": {
-    //             "sEmptyTable":   "Tidak ada data yang tersedia pada tabel ini",
-    //             "sProcessing":   "Sedang memproses...",
-    //             "sLengthMenu":   "Tampilkan _MENU_ entri",
-    //             "sZeroRecords":  "Tidak ditemukan data yang sesuai",
-    //             "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
-    //             "sInfoEmpty":    "Tidak ada data yang tersedia",
-    //             "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
-    //             "sInfoPostFix":  "",
-    //             "sSearch":       "Cari:",
-    //             "sUrl":          "",
-    //             "oPaginate": {
-    //                 "sFirst":    "|<",
-    //                 "sPrevious": "<",
-    //                 "sNext":     ">",
-    //                 "sLast":     ">|"
-    //             }
-    //         },
-    //         "initComplete": function( settings, json ) {
-    //             $('#dataTable tbody').on( 'click', '#viewData', function(e) {
-    //                 e.preventDefault();
-    //             });
-
-    //             $('#dataTable tbody').on( 'click', '#editData', function(e) {
-    //                 e.preventDefault();
-    //                 toggleCollapseCard(false);
-
-    //                 var data = table.row( $(this).parents('tr') ).data();
-    //                 $("#formSiswa input[name=nisn]").val(data.nisn).focus();
-    //                 $("#formSiswa input[name=nis]").val(data.nis);
-    //                 $("#formSiswa input[name=student_name]").val(data.student_name);
-    //                 $("#formSiswa select[name=class]").val(data.__class_id);
-    //                 isCreate = false;
-    //                 studentId = data.nisn;
-    //                 $("#title").html("Sunting Siswa");
-    //                 $("#btnSubmit").html("Ubah");
-    //                 $("#btnReset").show();
-    //             });
-
-    //             $('#dataTable tbody').on( 'click', '#deleteData', function(e) {
-    //                 e.preventDefault();
-
-    //                 var data = table.row( $(this).parents('tr') ).data();
-    //                 Swal.fire({
-    //                     title: 'Apakah Anda Yakin?',
-    //                     text: 'Siswa ' + data.student_name + ' akan dihapus',
-    //                     icon: 'question',
-    //                     showCancelButton: true,
-    //                     confirmButtonText: 'Hapus',
-    //                     cancelButtonText: 'Batal'
-    //                 }).then((result) => {
-    //                     if (result.value) {
-    //                         $.ajax({
-    //                             type: 'DELETE',
-    //                             url: '/siswa/' + data.nisn,
-    //                             dataType: 'json',
-    //                             success: function(data) {
-    //                                 table.ajax.reload(null, false);
-    //                                 Swal.fire({
-    //                                     title: 'Berhasil',
-    //                                     icon: 'success',
-    //                                     showCancelButton: false,
-    //                                     timer: 1500
-    //                                 });
-    //                             },
-    //                             error: function(data) {
-    //                                 console.log(data);
-    //                             }
-    //                         });
-    //                     }
-    //                 });
-    //             });
-    //         }
-    //     });
-
-    //     $("#formSiswa").on('submit', function(e) {
-    //         if (isCreate) {
-    //             type = 'POST';
-    //             url = '/siswa';
-    //             msg = 'tambahkan';
-    //         } else {
-    //             type = 'PUT';
-    //             url = '/siswa/' + studentId;
-    //             msg = 'ubah';
-    //         }
-            
-    //         $.ajax({
-    //             type: type,
-    //             url: url,
-    //             data: {
-    //                 nisn: $("#formSiswa input[name=nisn]").val(),
-    //                 nis: $("#formSiswa input[name=nis]").val(),
-    //                 student_name: $("#formSiswa input[name=student_name]").val(),
-    //                 __class_id: $("#formSiswa select[name=class]").val(),
-    //                 spp: $("#formSiswa select[name=spp]").val()
-    //             },
-    //             dataType: 'json',
-    //             success: function(data) {
-    //                 $("#title").html("Tambah Siswa");
-    //                 $('#formSiswa').trigger("reset");
-    //                 table.ajax.reload(null, false);
-    //                 Swal.fire({
-    //                     title: 'Berhasil',
-    //                     text: 'Siswa ' + data.student.student_name + ' berhasil di' + msg,
-    //                     icon: 'success',
-    //                     showCancelButton: false,
-    //                     timer: 1500
-    //                 });
-    //             },
-    //             error: function(data) {
-    //                 var errors = $.parseJSON(data.responseText);
-                    
-    //                 var message = '';
-    //                 $.each(errors.messages, function(key, value) {
-    //                     if (message != '') {
-    //                         message += '</br>'
-    //                     }
-    //                     message += value;
-    //                 });
-
-    //                 Swal.fire({
-    //                     title: 'Gagal',
-    //                     html: message,
-    //                     icon: 'error'
-    //                 });
-    //             }
-    //         });
-
-    //         e.preventDefault();
-    //     });
-
-    //     $("#formSiswa").on("reset", function() {
-    //         toggleCollapseCard(true);
-    //         $("#btnReset").hide();
-    //         isCreate = true;
-    //         studentId = '';
-    //         $("#title").html("Tambah Siswa");
-    //         $("#btnSubmit").html("Simpan");
-    //     })
-
-    //     function toggleCollapseCard(collapse) {
-    //         if ($('#collapseCardButton').attr('aria-expanded') === 'false' && !collapse
-    //             || $('#collapseCardButton').attr('aria-expanded') === 'true' && collapse) {
-    //             $('#collapseCardButton').trigger('click');
-    //         }
-    //     }
-    // });
+    $(document).ready( function () {
+        var table = $('#dataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: 'json/{{ $id }}',
+            pageLength: 12,
+            bLengthChange: false,
+            columns: [
+                { data: 'month', name: 'month', orderable: false },
+                { data: 'school_year', name: 'school_year' },
+                { data: 'nominal_month', name: 'nominal_month', render: function (data) {
+                    return 'Rp' + $.number(data, 0, ',', '.');
+                } },
+                { data: 'payment_date', name: 'payment_date' },
+                { data: 'operator_name', name: 'operator_name' },
+                { data: 'info', name: 'info', render: function (data) {
+                    if (data == '1') {
+                        return '<span class="badge badge-success">Lunas</span>';
+                    } else if (data == '2') {
+                        return '<span class="badge badge-danger">Belum Lunas</span>';
+                    }
+                } },
+            ],
+            "language": {
+                "sEmptyTable":   "Tidak ada data yang tersedia pada tabel ini",
+                "sProcessing":   "Sedang memproses...",
+                "sLengthMenu":   "Tampilkan _MENU_ entri",
+                "sZeroRecords":  "Tidak ditemukan data yang sesuai",
+                "sInfo":         "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                "sInfoEmpty":    "Tidak ada data yang tersedia",
+                "sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+                "sInfoPostFix":  "",
+                "sSearch":       "Cari:",
+                "sUrl":          "",
+                "oPaginate": {
+                    "sFirst":    "|<",
+                    "sPrevious": "<",
+                    "sNext":     ">",
+                    "sLast":     ">|"
+                }
+            }
+        });
+    });
 </script>
 @endpush

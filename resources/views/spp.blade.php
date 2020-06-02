@@ -92,7 +92,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"
     integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.11/dist/sweetalert2.all.min.js"></script>
-<script src="{{ asset('js/jquery.number.js') }}"></script>
 <script>
     function addSchoolYear() {
         let schoolYear1 = document.getElementById("schoolYear1");

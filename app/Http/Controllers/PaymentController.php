@@ -7,8 +7,8 @@ use App\Payment;
 use App\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class PaymentController extends Controller
 {
@@ -43,7 +43,7 @@ class PaymentController extends Controller
         $payment = new Payment();
         $payment->operator_id = Auth::id();
         $payment->student_nisn = $request->input('nisn');
-        $payment->spp_id = $student->spp_id;
+        $payment->spp_id = $student->spp->id;
         $payment->payment_date = now();
         $payment->month_paid = $request->input('month_paid');
         $payment->save();
@@ -104,11 +104,8 @@ class PaymentController extends Controller
 
     public function json()
     {
-        return datatables(DB::table('payments')
-            ->join('users', 'payments.operator_id', '=', 'users.id')
-            ->join('students', 'payments.student_nisn', '=', 'students.nisn')
-            ->join('__classes', 'students.__class_id', '=', '__classes.id')
-            ->join('spps', 'students.spp_id', '=', 'spps.id'))
+        return DataTables::of(Payment::with('operator', 'student', 'student.class', 'spp')
+            ->get())
             ->toJson();
     }
 }

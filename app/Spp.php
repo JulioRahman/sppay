@@ -21,4 +21,12 @@ class Spp extends Model
     {
         return $this->hasMany('App\Student');
     }
+
+    /**
+     * Get the payments for the spp.
+     */
+    public function payments()
+    {
+        return $this->hasMany('App\Payment');
+    }
 }

@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -19,7 +20,16 @@ class UserSeeder extends Seeder
             'role' => 'ADMIN',
             'email' => 'julio.rahman@gmail.com',
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'password' => '$2y$10$3smBVXQi6FHjBFU5EYwo/u1TrC3D7Ocx.Ke.j3oawoQo9qVAzrVS2',
+            'password' => Hash::make('12345678'),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        $table->insert([
+            'name' => 'Miong',
+            'role' => 'PETUGAS',
+            'email' => 'miong@sppay.com',
+            'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'password' => Hash::make('12345678'),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);

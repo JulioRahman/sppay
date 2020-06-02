@@ -143,7 +143,7 @@
             "columnDefs": [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<a href='' class='pr-2' id='viewData' title='Dalam Pengembangan'><i class='fas fa-eye'></i></a>" +
+                "defaultContent": "<a href='' class='pr-2' id='viewData'><i class='fas fa-eye'></i></a>" +
                     "<a href='' class='pr-2' id='editData'><i class='fas fa-edit'></i></a>" +
                     "<a href='' id='deleteData'><i class='fas fa-trash'></i></a>"
             }],
@@ -168,6 +168,8 @@
             "initComplete": function( settings, json ) {
                 $('#dataTable tbody').on( 'click', '#viewData', function(e) {
                     e.preventDefault();
+                    var data = table.row( $(this).parents('tr') ).data();
+                    window.location.href = "{{ route('student.detail') }}/" + data.nisn;
                 });
 
                 $('#dataTable tbody').on( 'click', '#editData', function(e) {

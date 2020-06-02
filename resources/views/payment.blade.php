@@ -56,6 +56,7 @@
                                     <th scope="col">Kelas</th>
                                     <th scope="col">SPP</th>
                                     <th scope="col">Bulan Dibayar</th>
+                                    <th scope="col">Tanggal</th>
                                     <th scope="col">Petugas</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
@@ -86,16 +87,18 @@
             serverSide: true,
             ajax: 'bayar/json',
             columns: [
-                // { data: 'id', name: 'id' },
-                { data: 'student_name', name: 'student_name' },
-                { data: 'class_name', name: 'class_name' },
-                { data: 'null', name: 'spp', render: function ( data, type, row ) {
-                    return row.school_year + ' - ' + row.nominal;
+                { data: 'student.student_name', name: 'student.student_name' },
+                { data: 'student.class.grade', render: function ( data, type, row ) {
+                    return row.student.class.grade + ' ' + row.student.class.majors + ' ' + row.student.class.class_name;
                 } },
-                { data: 'month_paid', name: 'month_paid', render: function(data) {
+                { data: 'spp.nominal', render: function ( data, type, row ) {
+                    return row.spp.school_year + ' - ' + row.spp.nominal;
+                } },
+                { data: 'month_paid', render: function(data) {
                     return data + ' bulan';
                 } },
-                { data: 'name', name: 'name' },
+                { data: 'payment_date', name: 'payment_date' },
+                { data: 'operator.name', name: 'operator.name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             "columnDefs": [{

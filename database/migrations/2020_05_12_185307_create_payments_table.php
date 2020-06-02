@@ -17,7 +17,8 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('operator_id');
             $table->string('student_nisn', 10);
-            $table->date('payment_date');
+            $table->foreignId('spp_id')->constrained();
+            $table->dateTime('payment_date');
             $table->integer('month_paid');
             $table->timestamps();
 

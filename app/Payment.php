@@ -21,4 +21,12 @@ class Payment extends Model
     {
         return $this->belongsTo('App\Student', 'student_nisn', 'nisn');
     }
+
+    /**
+     * Get the spp that owns the payment.
+     */
+    public function spp()
+    {
+        return $this->belongsTo('App\Spp');
+    }
 }
