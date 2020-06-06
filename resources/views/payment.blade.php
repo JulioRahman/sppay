@@ -92,15 +92,18 @@
                     return row.student.class.grade + ' ' + row.student.class.majors + ' ' + row.student.class.class_name;
                 } },
                 { data: 'spp.nominal', render: function ( data, type, row ) {
-                    return row.spp.school_year + ' - ' + row.spp.nominal;
+                    return row.spp.school_year + ' - ' + 'Rp' + $.number(row.spp.nominal, 0, ',', '.');
                 } },
                 { data: 'month_paid', render: function(data) {
                     return data + ' bulan';
                 } },
-                { data: 'payment_date', name: 'payment_date' },
+                { data: 'payment_date', name: 'payment_date', render: function(data) {
+                    return new Date(data).toLocaleDateString();
+                } },
                 { data: 'operator.name', name: 'operator.name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
+            order: [[4, 'desc']],
             "columnDefs": [{
                 "targets": -1,
                 "data": null,

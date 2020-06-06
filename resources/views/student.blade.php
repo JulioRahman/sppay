@@ -69,14 +69,14 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="address">Alamat</label>
-                                    <textarea class="form-control" id="address" name="address" placeholder="" rows="3"
-                                        disabled></textarea>
+                                    <textarea class="form-control" id="address" name="address" placeholder=""
+                                        rows="3"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="telephone_number">Nomor Telepon</label>
                                     <input type="tel" class="form-control" id="telephone_number" name="telephone_number"
-                                        placeholder="" disabled>
+                                        placeholder="">
                                 </div>
 
                                 <button id="btnSubmit" type="submit" class="btn btn-primary float-right">Simpan</button>
@@ -181,6 +181,8 @@
                     $("#formSiswa input[name=nis]").val(data.nis);
                     $("#formSiswa input[name=student_name]").val(data.student_name);
                     $("#formSiswa select[name=class]").val(data.__class_id);
+                    $("#formSiswa textarea[name=address]").val(data.address);
+                    $("#formSiswa input[name=telephone_number]").val(data.telephone_number);
                     isCreate = false;
                     studentId = data.nisn;
                     $("#title").html("Sunting Siswa");
@@ -243,7 +245,9 @@
                     nis: $("#formSiswa input[name=nis]").val(),
                     student_name: $("#formSiswa input[name=student_name]").val(),
                     __class_id: $("#formSiswa select[name=class]").val(),
-                    spp: $("#formSiswa select[name=spp]").val()
+                    spp: $("#formSiswa select[name=spp]").val(),
+                    address: $("#formSiswa textarea[name=address]").val(),
+                    telephone_number: $("#formSiswa input[name=telephone_number]").val()
                 },
                 dataType: 'json',
                 success: function(data) {

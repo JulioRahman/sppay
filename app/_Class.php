@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class _Class extends Model
 {
-    protected $appends = ['grade'];
+    protected $appends = ['grade', 'name'];
 
     /**
      * Get the class's grade.
@@ -31,6 +31,19 @@ class _Class extends Model
     {
         $year = intval(date('Y', strtotime('+6 month', strtotime(date('r')))));
         $this->attributes['generation'] = ($year - 1977 - $value) + 13;
+    }
+
+    /**
+     * Get the class's name.
+     *
+     * @param  int  $value
+     * @return string
+     */
+    public function getNameAttribute($value)
+    {
+        return $this->getAttribute('grade') . " "
+            . $this->getAttribute('majors') . " "
+            . $this->getAttribute('class_name');
     }
 
     /**

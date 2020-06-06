@@ -70,14 +70,14 @@
       </li>
 
       <!-- Nav Item - User Management Menu -->
-      <li class="nav-item {{ Route::is('student') ? 'active' : '' }}"">
-        <a class="nav-link {{ Route::is('student') || Route::is('user') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
+      <li class="nav-item {{ Route::is('student') || Route::is('student.detail') ? 'active' : '' }}"">
+        <a class="nav-link {{ Route::is('student') || Route::is('student.detail') || Route::is('user') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
           <i class="fas fa-fw fa-user-cog"></i>
           <span>Manajemen Pengguna</span>
         </a>
         <div id="collapseUser" class="collapse {{ Route::is('student') || Route::is('user') ? 'show' : '' }}" aria-labelledby="headingUser" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item {{ Route::is('student') ? 'active' : '' }}" href="{{ route('student') }}">Siswa</a>
+            <a class="collapse-item {{ Route::is('student') || Route::is('student.detail') ? 'active' : '' }}" href="{{ route('student') }}">Siswa</a>
             <a class="collapse-item {{ Request::is('pengguna/petugas') ? 'active' : '' }}" href="{{ url('pengguna/petugas') }}">Petugas</a>
             <a class="collapse-item {{ Request::is('pengguna/admin') ? 'active' : '' }}" href="{{ url('pengguna/admin') }}">Admin</a>
           </div>
@@ -134,11 +134,6 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="javascript:void(0)">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profil
-                </a>
-                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Keluar
@@ -250,7 +245,7 @@
         document.getElementById("accordionSidebar").classList.add("toggled");
         document.getElementById("collapseUser").classList.remove("show");
       } else {
-        @if(Route::is('student') || Request::is('pengguna/admin') || Request::is('pengguna/petugas'))
+        @if(Route::is('student') || Route::is('student.detail') || Request::is('pengguna/admin') || Request::is('pengguna/petugas'))
         document.getElementById("collapseUser").classList.add("show");
         @endif
       }

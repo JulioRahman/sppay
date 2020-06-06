@@ -17,72 +17,52 @@
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary" id="title">Lihat Siswa</h6>
                 </div>
-                <form id="formSiswa">
-                    @csrf
-                    <div class="row card-body">
-                        {{-- <div class="col-lg-6">
-                            <div class="form-row">
-                                <div class="form-group col">
-                                    <label for="nisn">NISN</label>
-                                    <input type="number" class="form-control" id="nisn" name="nisn" placeholder=""
-                                        min="1" max="9999999999" maxlength="10" required>
-                                </div>
-
-                                <div class="form-group col">
-                                    <label for="nis">NIS</label>
-                                    <input type="number" class="form-control" id="nis" name="nis" placeholder="" min="1"
-                                        max="999999999" maxlength="9" required>
-                                </div>
+                <div class="row card-body">
+                    <div class="col-lg-6">
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="nisn">NISN</label>
+                                <input id="nisn" class="form-control" placeholder="{{$student->nisn}}" disabled>
                             </div>
 
-                            <div class="form-group">
-                                <label for="student_name">Nama</label>
-                                <input type="text" class="form-control" id="student_name" name="student_name"
-                                    placeholder="" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="class">Kelas</label>
-                                <select class="form-control" id="class" name="class">
-                                    @foreach ($classes as $class)
-                                    <option value="{{ $class->id }}">
-                                        {{ $class->grade . " " . $class->majors . " " . $class->class_name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="spp">SPP</label>
-                                <select class="form-control" id="spp" name="spp">
-                                    @foreach ($spps as $spp)
-                                    <option value="{{ $spp->id }}">
-                                        {{ $spp->school_year . " - Rp" . number_format($spp->nominal, 0, ",", ".") }}
-                                    </option>
-                                    @endforeach
-                                </select>
+                            <div class="form-group col">
+                                <label for="nis">NIS</label>
+                                <input id="nis" class="form-control" placeholder="{{$student->nis}}" disabled>
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="address">Alamat</label>
-                                <textarea class="form-control" id="address" name="address" placeholder="" rows="3"
-                                    disabled></textarea>
-                            </div>
+                        <div class="form-group">
+                            <label for="student_name">Nama</label>
+                            <input id="student_name" class="form-control" placeholder="{{$student->student_name}}"
+                                disabled>
+                        </div>
 
-                            <div class="form-group">
-                                <label for="telephone_number">Nomor Telepon</label>
-                                <input type="tel" class="form-control" id="telephone_number" name="telephone_number"
-                                    placeholder="" disabled>
-                            </div>
+                        <div class="form-group">
+                            <label for="class">Kelas</label>
+                            <input id="class" class="form-control" placeholder="{{$student->class->name}}" disabled>
+                        </div>
 
-                            <button id="btnSubmit" type="submit" class="btn btn-primary float-right">Simpan</button>
-                            <button id="btnReset" type="reset" class="btn btn-danger float-right mr-2"
-                                style="display: none">Batal</button>
-                        </div> --}}
+                        <div class="form-group">
+                            <label for="spp">SPP</label>
+                            <input id="spp" class="form-control"
+                                placeholder="{{$student->spp->school_year . " - " . $student->spp->nominal}}" disabled>
+                        </div>
                     </div>
-                </form>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="address">Alamat</label>
+                            <textarea id="address" class="form-control" placeholder="{{$student->address}}" rows="3"
+                                disabled></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone_number">Nomor Telepon</label>
+                            <input id="telephone_number" class="form-control"
+                                placeholder="{{$student->telephone_number}}" disabled>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -130,8 +110,20 @@
                 { data: 'nominal_month', name: 'nominal_month', render: function (data) {
                     return 'Rp' + $.number(data, 0, ',', '.');
                 } },
-                { data: 'payment_date', name: 'payment_date' },
-                { data: 'operator_name', name: 'operator_name' },
+                { data: 'payment_date', name: 'payment_date', render: function(data) {
+                    if (data != '') {
+                        return new Date(data).toLocaleDateString();
+                    } else {
+                        return '-';
+                    }
+                } },
+                { data: 'operator_name', name: 'operator_name', render: function(data) {
+                    if (data != '') {
+                        return data;
+                    } else {
+                        return '-';
+                    }
+                } },
                 { data: 'info', name: 'info', render: function (data) {
                     if (data == '1') {
                         return '<span class="badge badge-success">Lunas</span>';

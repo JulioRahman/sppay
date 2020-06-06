@@ -55,6 +55,8 @@ class StudentController extends Controller
         $student->student_name = $request->input('student_name');
         $student->__class_id = $request->input('__class_id');
         $student->spp_id = $request->input('spp');
+        $student->address = $request->input('address');
+        $student->telephone_number = $request->input('telephone_number');
         $student->save();
 
         return response()->json([
@@ -98,6 +100,8 @@ class StudentController extends Controller
         $student->student_name = $request->input('student_name');
         $student->__class_id = $request->input('__class_id');
         $student->spp_id = $request->input('spp');
+        $student->address = $request->input('address');
+        $student->telephone_number = $request->input('telephone_number');
         $student->save();
 
         return response()->json([
@@ -124,7 +128,8 @@ class StudentController extends Controller
 
     public function detail($id)
     {
-        return view('student.detail', ['id' => $id]);
+        $student = Student::find($id)->with('class', 'spp')->get();
+        return view('student.detail', ['id' => $id, 'student' => $student[0]]);
     }
 
     public function jsonDetail($id)
@@ -154,46 +159,63 @@ class StudentController extends Controller
 
         $arrays = [];
 
-        for ($i = 0; $i < count($years); $i++) {
-            $iMonth = 0;
+        if (count($years) != 0) {
+            for ($i = 0; $i < count($years); $i++) {
+                $iMonth = 0;
 
-            $data = Payment::where('student_nisn', $id)
-                ->join('spps', 'payments.spp_id', '=', 'spps.id')
-                ->where('spps.school_year', $years[$i]->school_year)
-                ->get();
+                $data = Payment::where('student_nisn', $id)
+                    ->join('spps', 'payments.spp_id', '=', 'spps.id')
+                    ->where('spps.school_year', $years[$i]->school_year)
+                    ->get();
 
-            for ($j = 0; $j < count($data); $j++) {
-                for ($k = 0; $k < $data[$j]->month_paid; $k++) {
+                for ($j = 0; $j < count($data); $j++) {
+                    for ($k = 0; $k < $data[$j]->month_paid; $k++) {
+                        array_push($arrays, [
+                            'month' => $month[$iMonth],
+                            'school_year' => $data[$j]->spp->school_year,
+                            'nominal_month' => $data[$j]->spp->nominal / 12,
+                            'payment_date' => $data[$j]->payment_date,
+                            'operator_name' => $data[$j]->operator->name,
+                            'info' => '1',
+                        ]);
+
+                        $iMonth++;
+                    }
+                }
+
+                $data = Student::find($id)
+                    ->with('spp')
+                    ->get();
+
+                for ($j = $iMonth; $j < 12; $j++) {
                     array_push($arrays, [
-                        'month' => $month[$iMonth],
-                        'school_year' => $data[$j]->spp->school_year,
-                        'nominal_month' => $data[$j]->spp->nominal / 12,
-                        'payment_date' => $data[$j]->payment_date,
-                        'operator_name' => $data[$j]->operator->name,
-                        'info' => '1',
+                        'month' => $month[$j],
+                        'school_year' => $data[0]->spp->school_year,
+                        'nominal_month' => $data[0]->spp->nominal / 12,
+                        'payment_date' => '',
+                        'operator_name' => '',
+                        'info' => '2',
                     ]);
-
-                    $iMonth++;
                 }
             }
-
+        } else {
             $data = Student::find($id)
                 ->with('spp')
                 ->get();
 
-            for ($j = $iMonth; $j < 12; $j++) {
+            for ($i = 0; $i < 12; $i++) {
                 array_push($arrays, [
-                    'month' => $month[$j],
+                    'month' => $month[$i],
                     'school_year' => $data[0]->spp->school_year,
                     'nominal_month' => $data[0]->spp->nominal / 12,
-                    'payment_date' => '-',
-                    'operator_name' => '-',
+                    'payment_date' => '',
+                    'operator_name' => '',
                     'info' => '2',
                 ]);
             }
         }
 
         return Datatables::of($arrays)
-        ->toJson();
+            ->toJson();
     }
 }
