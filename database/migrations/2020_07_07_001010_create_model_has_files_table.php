@@ -15,7 +15,7 @@ class CreateModelHasFilesTable extends Migration
     {
         Schema::create('model_has_files', function (Blueprint $table) {
             $table->id();
-            $table->string('model_name');
+            $table->string('model_type');
             $table->integer('model_id');
             $table->bigInteger('file_id');
             $table->foreign('file_id')

@@ -17,6 +17,12 @@ class CreateFileLogsTable extends Migration
             $table->id();
             $table->bigInteger('performer_id');
             $table->string('action')->nullable();
+            $table->bigInteger('file_id');
+            $table->foreign('file_id')
+                ->references('id')
+                ->on('files')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->morphs('loggable');
             $table->timestamps();
         });
