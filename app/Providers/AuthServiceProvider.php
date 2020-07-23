@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\CheckUserRole;
 use App\Role\RoleChecker;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+        Passport::routes();
 
         $this->app->singleton(CheckUserRole::class, function (Application $app) {
             return new CheckUserRole(
