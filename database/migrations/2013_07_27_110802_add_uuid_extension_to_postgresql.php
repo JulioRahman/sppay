@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetailedFilesView extends Migration
+class AddUuidExtensionToPostgresql extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,7 @@ class CreateDetailedFilesView extends Migration
      */
     public function up()
     {
-        DB::statement(
-
-        );
+        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
     }
 
     /**
@@ -26,8 +24,6 @@ class CreateDetailedFilesView extends Migration
      */
     public function down()
     {
-        DB::statement(
-
-        );
+        DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
     }
 }

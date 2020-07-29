@@ -45,8 +45,10 @@ api = kittn.authorize('meowmeowmeow')
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+curl "${BASE_URL}/api/oauth/token"
+  -X POST
+  -H "Accept: application/json"
+  -d '{"grant_type":"password", "client_id":"<YOUR_CLIENT_ID>", "client_secret":"<YOUR_CLIENT_SECRET", "username":"julio.rahman@gmail.com","password":"12345678"}'
 ```
 
 ```javascript
@@ -55,21 +57,21 @@ const kittn = require('kittn');
 let api = kittn.authorize('meowmeowmeow');
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+<!-- > Make sure to replace `meowmeowmeow` with your API key. -->
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+the SPPAY API uses API keys to allow access to the API. You can register your client application with `php artisan passport:client --password` command. 
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+the SPPAY API expects for the API key to be included in all API requests to the server in a header that looks like the following:
 
-`Authorization: meowmeowmeow`
+`Authorization: Bearer {YOUR_TOKEN}`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>{YOUR_TOKEN}</code> with your API key.
 </aside>
 
-# Kittens
+# File System
 
-## Get All Kittens
+## Get All Files
 
 ```ruby
 require 'kittn'
@@ -118,24 +120,30 @@ let kittens = api.kittens.get();
 ]
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all files from specified directory/folder. if there's
+no directory specified, will retrieves root directory.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET {BASE_URL}/api/file-management/files`
+
+to retrieve files from specified directory:
+
+`GET {BASE_URL}/api/file-management/files/<ID>`
+
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Parameter | Default | type | Description
+--------- | ------- | ---- |-----------
+sort_key | is_directory, created_at | string | available sort key `name`, `size`, `is_directory`, `owner_id`, `permission`,`created_at`, `updated_at`
+sort_order | asc, desc| string | If set to false, the result will include kittens that have already been adopted.
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Remember - these routes are protected by OAuth2!
 </aside>
 
-## Get a Specific Kitten
+## Store a File
 
 ```ruby
 require 'kittn'
@@ -175,21 +183,26 @@ let max = api.kittens.get(2);
 }
 ```
 
-This endpoint retrieves a specific kitten.
+This endpoint stores a file to the physical & virtual file system.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`POST {BASE_URL}/api/file-management/files`
 
-### URL Parameters
+### Body Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+is_directory | to specify whether the stored file is a directory or not
+permission | to set permission of the file
+file_parent_id | if the is file inside directory, use this parameter to specify the directory's id
+owner_id | to specify the owner of the file
 
-## Delete a Specific Kitten
+<aside class="warning">A non-directory file cannot be a parent, consider to not assigning non-directory as parent, it will break the logic and the system. </aside> 
+<!-- <code>&lt;code&gt;</code> blocks to denote code.</aside> -->
+
+<!-- ## Delete a Specific Kitten
 
 ```ruby
 require 'kittn'
@@ -238,4 +251,4 @@ This endpoint deletes a specific kitten.
 Parameter | Description
 --------- | -----------
 ID | The ID of the kitten to delete
-
+ -->

@@ -23,28 +23,15 @@ Route::group([
     'prefix' => 'file-management',
     'middleware' => 'auth:api'
 ], function () {
+
     Route::group([
-        'prefix' => 'user'
+        'prefix' => 'files'
     ], function () {
-        Route::group([
-            'prefix' => 'directories'
-        ], function () {
+        Route::get('{id?}', 'FileStorageController@index')
+            ->name('file-management.files.index');
 
-            Route::get('', 'FileStorageController@index')
-                ->name('file-management-user-index-directories');
-
-            Route::post('', 'FileStorageController@store')
-                ->name('file-management-user-store-directories');
-
-            Route::put('{id}', 'FileStorageController@update')
-                ->name('file-management-user-update-directory');
-
-            Route::delete('{id}', 'FileStorageController@delete')
-                ->name('file-management-user-delete-directory');
-
-            Route::get('{id}', 'FileStorageController@show')
-                ->name('file-management-user-show-directories');
-        });
+        Route::post('', 'FileStorageController@store')
+            ->name('file-management.files.store');
     });
 });
 

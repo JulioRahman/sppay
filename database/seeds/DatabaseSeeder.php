@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
             ClassSeeder::class,
             SppSeeder::class,
             StudentSeeder::class,
-            // FileStorageSeeder::class
+            FileStorageSeeder::class
         ]);
     }
 }

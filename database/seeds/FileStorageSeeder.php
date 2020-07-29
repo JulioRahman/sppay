@@ -1,6 +1,6 @@
 <?php
 
-use App\FileStorage\Models\File;
+use App\FileStorage\Models\File as FileSystem;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -17,12 +17,13 @@ class FileStorageSeeder extends Seeder
      */
     public function run()
     {
-        $this->prepareSeeds();
-
-        # execute storing to db
-
-        foreach ($this->hierarchyFiles['files'] as $folder => $files) {
-        }
+        $file = new FileSystem();
+        $file->path = '/root_files';
+        $file->permission = '777';
+        $file->name = 'root_files';
+        $file->owner_id = 1;
+        $file->is_directory = true;
+        $file->save();
     }
 
     /**

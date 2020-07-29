@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModelHasFilesTable extends Migration
+class AddForeignKeyConstraintToFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,10 @@ class CreateModelHasFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('model_has_files', function (Blueprint $table) {
-            $table->id();
-            $table->string('model_type');
-            $table->integer('model_id');
-            $table->uuid('file_id');
-            $table->foreign('file_id')
+        Schema::table('files', function (Blueprint $table) {
+            $table->foreign('file_parent_id')
                 ->references('id')
                 ->on('files');
-            $table->timestamps();
         });
     }
 
@@ -32,6 +27,8 @@ class CreateModelHasFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('model_has_files');
+        Schema::table('files', function (Blueprint $table) {
+            $table->dropForeign('file_parent_id');
+        });
     }
 }

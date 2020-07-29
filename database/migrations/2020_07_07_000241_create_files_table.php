@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateFilesTable extends Migration
@@ -14,15 +15,13 @@ class CreateFilesTable extends Migration
     public function up()
     {
         Schema::create('files', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')
+                ->default(DB::raw('uuid_generate_v1()'))
+                ->primary();
             $table->string('name');
-            $table->bigInteger('file_parent_id')->nullable();
-            $table->foreign('file_parent_id')
-                ->references('id')
-                ->on('files');
+            $table->uuid('file_parent_id')->nullable();
             $table->bigInteger('size')->nullable();
             $table->boolean('is_directory')->default(false);
-            $table->boolean('is_hidden')->default(false);
             $table->text('path')->unique();
 
             # UNIX permission style : owner (private), group (protected),  all (public)
@@ -36,6 +35,9 @@ class CreateFilesTable extends Migration
                 ->references('id')
                 ->on('users');
             $table->timestamps();
+
+            # to avoid same name in a folder
+            $table->unique(['file_parent_id', 'name']);
         });
     }
 
