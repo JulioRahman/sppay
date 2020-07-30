@@ -21,11 +21,9 @@ code_clipboard: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the SPPAY API! You can use our API to access SPPAY API endpoints, which can get information in our database.
 
 We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
 
 # Authentication
 
@@ -45,9 +43,9 @@ api = kittn.authorize('meowmeowmeow')
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "${BASE_URL}/api/oauth/token"
-  -X POST
-  -H "Accept: application/json"
+curl "${BASE_URL}/oauth/token" \
+  -X POST \
+  -H "Accept: application/json" \
   -d '{"grant_type":"password", "client_id":"<YOUR_CLIENT_ID>", "client_secret":"<YOUR_CLIENT_SECRET", "username":"julio.rahman@gmail.com","password":"12345678"}'
 ```
 
@@ -88,8 +86,9 @@ api.kittens.get()
 ```
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl "${BASE_URL}/api/file-management/files"
+  -H "Authorization: Bearer ${YOUR_BEARER_TOKEN}"
+  -x GET
 ```
 
 ```javascript
@@ -102,22 +101,23 @@ let kittens = api.kittens.get();
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+    "success": "OK",
+    "results": [
+        {
+            "id": "17b8ea10-d221-11ea-a811-405bd85ee299",
+            "name": "Private Files",
+            "file_parent_id": "6cb5dde6-d1ba-11ea-93ed-405bd85ee299",
+            "size": null,
+            "is_directory": true,
+            "path": "/root_files/Private Files",
+            "permission": "777",
+            "owner_id": 1,
+            "created_at": "2020-07-30T04:56:56.000000Z",
+            "updated_at": "2020-07-30T04:56:56.000000Z"
+        }, ...
+    ]
+}
 ```
 
 This endpoint retrieves all files from specified directory/folder. if there's
@@ -140,7 +140,8 @@ sort_key | is_directory, created_at | string | available sort key `name`, `size`
 sort_order | asc, desc| string | If set to false, the result will include kittens that have already been adopted.
 
 <aside class="success">
-Remember - these routes are protected by OAuth2!
+Remember - these routes are protected by OAuth2. thus, you must assign 
+<br><code>Authorization: Bearer {YOUR_TOKEN}`</code> every time you make a request.
 </aside>
 
 ## Store a File
@@ -160,8 +161,9 @@ api.kittens.get(2)
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+curl "{$BASE_URL}/api/file-management/files"
+  -H "Authorization: Bearer ${YOUR_BEARER_TOKEN}"
+  -d '{"is_directory":"true","name":"New File"}'
 ```
 
 ```javascript
@@ -175,11 +177,18 @@ let max = api.kittens.get(2);
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "success": "OK",
+    "result": {
+        "permission": "777",
+        "is_directory": true,
+        "name": "New File",
+        "file_parent_id": "6cb5dde6-d1ba-11ea-93ed-405bd85ee299",
+        "owner_id": 1,
+        "path": "/root_files/New File",
+        "updated_at": "2020-07-30T05:03:36.000000Z",
+        "created_at": "2020-07-30T05:03:36.000000Z",
+        "file": null
+    }
 }
 ```
 
