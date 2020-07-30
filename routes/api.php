@@ -17,6 +17,7 @@ use PHPUnit\Framework\RiskyTestError;
 
 // Route::get('docs/{version}', 'RootController@getDocs');
 
+Route::get('docs', 'DocumentationController@indexAPI');
 
 # to retrieve files by authenticated user.
 Route::group([
