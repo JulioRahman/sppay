@@ -14,9 +14,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard')->middleware('auth');
+Route::get('/', 'HomeController@index')->name('dashboard');
 
 Route::get('/spp', 'SppController@index')->name('spp');
 Route::prefix('spp')->group(function () {
