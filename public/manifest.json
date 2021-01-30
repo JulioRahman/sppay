@@ -1,0 +1,17 @@
+{
+    "dir": "ltr",
+    "lang": "Indonesian",
+    "name": "SPPay - Aplikasi Manajemen Pembayaran Uang Sekolah",
+    "short_name": "SPPay",
+    "scope": "http://sppay.cyou/",
+    "display": "standalone",
+    "start_url": "http://sppay.cyou/",
+    "background_color": "#000000",
+    "theme_color": "transparent",
+    "description": "Aplikasi Manajemen Pembayaran Uang Sekolah",
+    "orientation": "any",
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "icons": [],
+    "url": "http://sppay.cyou/"
+}
