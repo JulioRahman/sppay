@@ -140,6 +140,7 @@
                 },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
+            "order": [1, 'asc'],
             "columnDefs": [{
                 "targets": -1,
                 "data": null,
@@ -236,7 +237,7 @@
                 url = '/siswa/' + studentId;
                 msg = 'ubah';
             }
-            
+
             $.ajax({
                 type: type,
                 url: url,
@@ -264,7 +265,7 @@
                 },
                 error: function(data) {
                     var errors = $.parseJSON(data.responseText);
-                    
+
                     var message = '';
                     $.each(errors.messages, function(key, value) {
                         if (message != '') {
