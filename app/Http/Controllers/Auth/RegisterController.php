@@ -44,7 +44,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $students = Student::whereNull('user_id')->get();
+        $students = Student::whereNull('user_id')->orderBy('student_name', 'asc')->get();
         return view("auth.register", ['students' => $students]);
     }
 
