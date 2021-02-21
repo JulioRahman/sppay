@@ -128,8 +128,8 @@ class StudentController extends Controller
 
     public function detail($id)
     {
-        $student = Student::find($id)->with('class', 'spp')->get();
-        return view('student.detail', ['id' => $id, 'student' => $student[0]]);
+        $student = Student::with('class', 'spp')->get()->find($id);
+        return view('student.detail', ['id' => $id, 'student' => $student]);
     }
 
     public function jsonDetail($id)

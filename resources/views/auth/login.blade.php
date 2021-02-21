@@ -31,7 +31,7 @@
                         <div class="form-group">
                             <input type="password" class="form-control form-control-user @error('password') is-invalid @enderror"
                                 id="password" placeholder="Kata Sandi" name="password" required autocomplete="current-password">
-                            
+
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -52,12 +52,16 @@
                     </form>
 
                     <hr width="10%">
-                    
+
                     @if (Route::has('password.request'))
                     <div class="text-center">
                         <a class="small" href="{{ route('password.request') }}">Lupa kata sandi Anda?</a>
                     </div>
                     @endif
+
+                    <div class="text-center">
+                        <a class="small" href="{{ route('register') }}">Daftar akun siswa</a>
+                    </div>
                 </div>
             </div>
         </div>

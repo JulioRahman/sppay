@@ -29,6 +29,14 @@ class Student extends Model
     }
 
     /**
+     * Get the user that own the student.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    /**
      * Get the spp that owns the student.
      */
     public function spp()

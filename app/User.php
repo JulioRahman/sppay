@@ -78,4 +78,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany('App\Payment');
     }
+
+    /**
+     * Get the student for the student user.
+     */
+    public function student()
+    {
+        return $this->hasOne('App\Student');
+    }
 }

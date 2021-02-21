@@ -22,3 +22,17 @@ html {
 .jr-accent-fade i {
     color: #43d693 !important;
 }
+
+.jr-form-control-user {
+    height: auto;
+    font-size: 0.8rem;
+    border-radius: 10rem;
+    padding: 1rem;
+  }
+
+.jr-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
