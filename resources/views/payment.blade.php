@@ -58,7 +58,7 @@
                                     <th scope="col">Bulan Dibayar</th>
                                     <th scope="col">Tanggal</th>
                                     <th scope="col">Petugas</th>
-                                    <th scope="col">Aksi</th>
+                                    {{-- <th scope="col">Aksi</th> --}}
                                 </tr>
                             </thead>
                         </table>
@@ -101,13 +101,13 @@
                     return new Date(data).toLocaleDateString();
                 } },
                 { data: 'operator.name', name: 'operator.name' },
-                { data: 'action', name: 'action', orderable: false, searchable: false }
+                // { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
             order: [[4, 'desc']],
             "columnDefs": [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<a href='' class='pr-2' id='editData'><i class='fas fa-edit'></i></a>" + 
+                "defaultContent": "<a href='' class='pr-2' id='editData'><i class='fas fa-edit'></i></a>" +
                     "<a href='' id='deleteData'><i class='fas fa-trash'></i></a>"
             }],
             "language": {
@@ -189,7 +189,7 @@
                 url = '/bayar/' + paymentId;
                 msg = 'ubah';
             }
-            
+
             $.ajax({
                 type: type,
                 url: url,
@@ -213,7 +213,7 @@
                 error: function(data) {
                     $("#title").html("Pembayaran SPP");
                     var errors = $.parseJSON(data.responseText);
-                    
+
                     var message = '';
                     $.each(errors.messages, function(key, value) {
                         if (message != '') {
