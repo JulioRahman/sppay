@@ -29,7 +29,7 @@ class StudentSeeder extends Seeder
                 'nis' => strval($nis + $i),
                 'student_name' => $student[$i],
                 '__class_id' => '16',
-                'spp_id' => '3',
+                'spp_id' => '4',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
