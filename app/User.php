@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Role\UserRole;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -69,6 +70,16 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return $role;
+    }
+
+    public function isStudent()
+    {
+        return $this->hasRole(UserRole::ROLE_STUDENT);
+    }
+
+    public function isOperator()
+    {
+        return $this->hasRole(UserRole::ROLE_OPERATOR);
     }
 
     /**

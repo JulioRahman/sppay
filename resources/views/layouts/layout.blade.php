@@ -62,41 +62,47 @@
           <span>Dasbor</span></a>
       </li>
 
-      <!-- Nav Item - Payment -->
-      <li class="nav-item {{ Route::is('payment') ? 'active' : '' }}">
-        <a class="nav-link jr-accent-fade" href="{{ route('payment') }}">
-          <i class="fas fa-fw fa-money-bill-wave"></i>
-          <span>Pembayaran</span></a>
-      </li>
+      @if(!Auth::user()->isStudent())
+        <!-- Nav Item - Payment -->
+        <li class="nav-item {{ Route::is('payment') ? 'active' : '' }}">
+            <a class="nav-link jr-accent-fade" href="{{ route('payment') }}">
+            <i class="fas fa-fw fa-money-bill-wave"></i>
+            <span>Pembayaran</span></a>
+        </li>
 
-      <!-- Nav Item - User Management Menu -->
-      <li class="nav-item {{ Route::is('student') || Route::is('student.detail') ? 'active' : '' }}"">
-        <a class="nav-link {{ Route::is('student') || Route::is('student.detail') || Route::is('user') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
-          <i class="fas fa-fw fa-user-cog"></i>
-          <span>Manajemen Pengguna</span>
-        </a>
-        <div id="collapseUser" class="collapse {{ Route::is('student') || Route::is('user') ? 'show' : '' }}" aria-labelledby="headingUser" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item {{ Route::is('student') || Route::is('student.detail') ? 'active' : '' }}" href="{{ route('student') }}">Siswa</a>
-            <a class="collapse-item {{ Request::is('pengguna/petugas') ? 'active' : '' }}" href="{{ url('pengguna/petugas') }}">Petugas</a>
-            <a class="collapse-item {{ Request::is('pengguna/admin') ? 'active' : '' }}" href="{{ url('pengguna/admin') }}">Admin</a>
-          </div>
-        </div>
-      </li>
+        <!-- Nav Item - User Management Menu -->
+        <li class="nav-item {{ Route::is('student') || Route::is('student.detail') ? 'active' : '' }}"">
+            <a class="nav-link {{ Route::is('student') || Route::is('student.detail') || Route::is('user') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
+            <i class="fas fa-fw fa-user-cog"></i>
+            <span>Manajemen Pengguna</span>
+            </a>
+            <div id="collapseUser" class="collapse {{ Route::is('student') || Route::is('user') ? 'show' : '' }}" aria-labelledby="headingUser" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {{ Route::is('student') || Route::is('student.detail') ? 'active' : '' }}" href="{{ route('student') }}">Siswa</a>
+                @if(!Auth::user()->isOperator())
+                    <a class="collapse-item {{ Request::is('pengguna/petugas') ? 'active' : '' }}" href="{{ url('pengguna/petugas') }}">Petugas</a>
+                    <a class="collapse-item {{ Request::is('pengguna/admin') ? 'active' : '' }}" href="{{ url('pengguna/admin') }}">Admin</a>
+                @endif
+            </div>
+            </div>
+        </li>
 
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item {{ Route::is('spp') || Route::is('class') ? 'active' : '' }}">
-        <a class="nav-link {{ Route::is('spp') || Route::is('class') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Data Master</span>
-        </a>
-        <div id="collapseTwo" class="collapse {{ Route::is('spp') || Route::is('class') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item {{ Route::is('spp') ? 'active' : '' }}" href="{{ route('spp') }}">SPP</a>
-            <a class="collapse-item {{ Route::is('class') ? 'active' : '' }}" href="{{ route('class') }}">Kelas</a>
-          </div>
-        </div>
-      </li>
+        @if(!Auth::user()->isOperator())
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item {{ Route::is('spp') || Route::is('class') ? 'active' : '' }}">
+                <a class="nav-link {{ Route::is('spp') || Route::is('class') ? '' : 'collapsed' }} jr-accent-fade" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Data Master</span>
+                </a>
+                <div id="collapseTwo" class="collapse {{ Route::is('spp') || Route::is('class') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item {{ Route::is('spp') ? 'active' : '' }}" href="{{ route('spp') }}">SPP</a>
+                    <a class="collapse-item {{ Route::is('class') ? 'active' : '' }}" href="{{ route('class') }}">Kelas</a>
+                </div>
+                </div>
+            </li>
+        @endif
+      @endif
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -215,7 +221,7 @@
     integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.10.11/dist/sweetalert2.all.min.js"></script>
   <script src="{{ asset('js/jquery.number.js') }}"></script>
-  
+
   <!-- App scripts -->
   <script  type="text/javascript">
     function setSideBarColapsed() {
